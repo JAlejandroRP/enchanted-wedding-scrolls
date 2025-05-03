@@ -78,10 +78,10 @@
   }
   
   body {
-    @apply bg-background text-foreground font-montserrat;
+    @apply bg-[#E5E0D8] text-[#3E000C] font-montserrat;
     background-image: 
-      linear-gradient(to right, rgba(248, 225, 228, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(248, 225, 228, 0.1) 1px, transparent 1px);
+      linear-gradient(to right, rgba(212, 178, 167, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(212, 178, 167, 0.05) 1px, transparent 1px);
     background-size: 30px 30px;
   }
   
@@ -101,7 +101,7 @@
   
   .section-title::after {
     content: "";
-    @apply block w-20 h-0.5 bg-wedding-gold mx-auto mt-3;
+    @apply block w-20 h-0.5 bg-[#D4B2A7] mx-auto mt-3;
   }
   
   .reveal {
@@ -117,15 +117,11 @@
   }
   
   .btn-primary {
-    @apply bg-wedding-pink text-gray-800 hover:bg-wedding-blush;
+    @apply bg-[#D4B2A7] text-[#3E000C] hover:bg-[#D4B2A7]/80;
   }
   
   .btn-outline {
-    @apply border border-wedding-gold text-gray-800 hover:bg-wedding-gold hover:text-white;
-  }
-  
-  .location-card {
-    @apply bg-white p-6 rounded-lg shadow-md mb-6 transition-all hover:shadow-lg;
+    @apply border border-[#D4B2A7] text-[#3E000C] hover:bg-[#D4B2A7] hover:text-white;
   }
   
   .animate-on-scroll {

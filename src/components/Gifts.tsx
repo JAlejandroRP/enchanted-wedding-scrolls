@@ -26,74 +26,74 @@ const Gifts = () => {
 
   return (
     <section id="regalos" className="section-container">
-      <h2 className="section-title reveal">Mesa de Regalos</h2>
+      <h2 className="section-title reveal text-[#3E000C]">Mesa de Regalos</h2>
       
       <div className="text-center mb-12 max-w-2xl mx-auto reveal">
-        <Gift size={32} className="mx-auto mb-4 text-wedding-gold" />
-        <p className="text-gray-700">
+        <Gift size={32} className="mx-auto mb-4 text-[#D4B2A7]" />
+        <p className="text-[#3E000C]">
           El regalo más valioso para nosotros es contar con tu presencia en este día tan especial.
           Sin embargo, si deseas obsequiarnos algo, aquí te dejamos algunas opciones.
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow reveal">
-          <h3 className="font-playfair text-xl mb-3">Mesa de Regalos</h3>
-          <p className="text-gray-600 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="reveal border-b border-[#D4B2A7]/30 pb-6">
+          <h3 className="font-playfair text-xl mb-3 text-[#3E000C]">Mesa de Regalos</h3>
+          <p className="text-[#3E000C]/80 mb-4">
             Hemos creado una mesa de regalos en las siguientes tiendas departamentales.
           </p>
           <div className="space-y-3">
-            <a href="#" className="block p-3 border border-wedding-gold/50 rounded-md hover:bg-wedding-cream/50 transition-colors text-center">
+            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
               Liverpool
             </a>
-            <a href="#" className="block p-3 border border-wedding-gold/50 rounded-md hover:bg-wedding-cream/50 transition-colors text-center">
+            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
               Palacio de Hierro
             </a>
-            <a href="#" className="block p-3 border border-wedding-gold/50 rounded-md hover:bg-wedding-cream/50 transition-colors text-center">
+            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
               Amazon
             </a>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow reveal">
-          <h3 className="font-playfair text-xl mb-3">Luna de Miel</h3>
-          <p className="text-gray-600 mb-4">
+        <div className="reveal border-b border-[#D4B2A7]/30 pb-6">
+          <h3 className="font-playfair text-xl mb-3 text-[#3E000C]">Luna de Miel</h3>
+          <p className="text-[#3E000C]/80 mb-4">
             Si prefieres, puedes contribuir a nuestra luna de miel con un obsequio monetario.
           </p>
-          <div className="border-t border-dashed border-gray-300 pt-4 mt-4">
-            <p className="text-sm text-gray-500 mb-2">Datos bancarios:</p>
-            <p className="mb-1"><span className="font-medium">Banco:</span> Ejemplo</p>
-            <p className="mb-1"><span className="font-medium">Titular:</span> Nombres de los novios</p>
-            <p className="mb-1"><span className="font-medium">CLABE:</span> 1234 5678 9012 3456</p>
+          <div className="border-t border-dashed border-[#D4B2A7]/50 pt-4 mt-4">
+            <p className="text-sm text-[#3E000C]/70 mb-2">Datos bancarios:</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Banco:</span> Ejemplo</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Titular:</span> Nombres de los novios</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">CLABE:</span> 1234 5678 9012 3456</p>
           </div>
         </div>
         
-        <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow reveal">
-          <h3 className="font-playfair text-xl mb-3">Lista de Deseos</h3>
-          <p className="text-gray-600 mb-4">
+        <div className="reveal">
+          <h3 className="font-playfair text-xl mb-3 text-[#3E000C]">Lista de Deseos</h3>
+          <p className="text-[#3E000C]/80 mb-4">
             Hemos preparado una lista de artículos específicos que nos encantaría recibir.
           </p>
-          <ul className="space-y-2 text-gray-700">
+          <ul className="space-y-2 text-[#3E000C]">
             <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
               Electrodomésticos para el hogar
             </li>
             <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
               Artículos de decoración
             </li>
             <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
               Utensilios de cocina
             </li>
             <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
               </svg>
               Experiencias para nuestra luna de miel
