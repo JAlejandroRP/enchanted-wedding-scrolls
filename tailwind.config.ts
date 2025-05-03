@@ -30,10 +30,6 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				wedding: {
-					'beige': '#E5E0D8',
-					'wine': '#3E000C',
-					'rose': '#D4B2A7',
-					'olive': '#B3B792',
 					'pink': '#f8e1e4',
 					'gold': '#d4af37',
 					'cream': '#f8f4e3',
@@ -104,14 +100,6 @@ export default {
 				'pulse-slow': {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.8' }
-				},
-				'soft-bounce': {
-					'0%, 100%': { transform: 'translateY(0)' },
-					'50%': { transform: 'translateY(-10px)' }
-				},
-				'elegant-fade': {
-					'0%': { opacity: '0', transform: 'scale(0.95)' },
-					'100%': { opacity: '1', transform: 'scale(1)' }
 				}
 			},
 			animation: {
@@ -119,9 +107,7 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.7s ease-out',
 				'slide-in': 'slide-in 0.9s ease-out',
-				'pulse-slow': 'pulse-slow 3s infinite',
-				'soft-bounce': 'soft-bounce 2s ease-in-out infinite',
-				'elegant-fade': 'elegant-fade 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+				'pulse-slow': 'pulse-slow 3s infinite'
 			}
 		}
 	},
