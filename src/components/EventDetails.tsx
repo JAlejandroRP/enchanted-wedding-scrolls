@@ -1,5 +1,6 @@
 
 import { MapPin, Clock, Calendar } from 'lucide-react';
+import { useEffect } from 'react';
 
 interface Location {
   name: string;
