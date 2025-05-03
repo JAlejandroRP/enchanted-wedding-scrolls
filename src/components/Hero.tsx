@@ -21,7 +21,7 @@ const Hero = ({
       id="inicio" 
       className="min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-wedding-cream to-white px-4"
       style={{
-        backgroundImage: `url('/placeholder.svg')`,
+        backgroundImage: `url('https://i.pinimg.com/736x/dd/55/d9/dd55d91f2b11d742cc6cf24e5590d2f3.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
