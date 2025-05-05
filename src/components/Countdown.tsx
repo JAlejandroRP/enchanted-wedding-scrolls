@@ -66,7 +66,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <h3 className="text-center font-playfair font-medium text-xl mb-4 text-white">Faltan</h3>
+      <h3 className="text-center font-playfair font-medium text-3xl mb-4 text-white">Faltan</h3>
       <div className="flex justify-center space-x-8">
         <div className="text-center">
           <div className="text-3xl md:text-5xl font-playfair text-white">{timeLeft.days}</div>
