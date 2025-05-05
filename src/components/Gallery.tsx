@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from 'react';
 import { Image } from 'lucide-react';
 import { useWeddingData } from '@/hooks/useWeddingData';
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 const Gallery = () => {
   const { weddingData } = useWeddingData();
+  const { primary, secondary } = useThemeColors();
   const { galleryImages } = weddingData;
   
   const [activeImage, setActiveImage] = useState<string | null>(null);
@@ -31,11 +32,11 @@ const Gallery = () => {
   }, []);
 
   return (
-    <section id="galeria" className="section-container bg-[#D4B2A7]/10">
-      <h2 className="section-title reveal text-[#3E000C]">Nuestra Historia</h2>
+    <section id="galeria" className={`section-container bg-[${secondary}]/10`}>
+      <h2 className={`section-title reveal text-[${primary}]`}>Nuestra Historia</h2>
       
       <div className="text-center mb-12 max-w-2xl mx-auto reveal">
-        <p className="text-[#3E000C]">
+        <p className={`text-[${primary}]`}>
           Cada imagen cuenta una parte de nuestra historia de amor. 
           Navega por estos momentos especiales que hemos compartido en nuestro viaje juntos.
         </p>

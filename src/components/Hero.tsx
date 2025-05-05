@@ -1,8 +1,10 @@
 import { useWeddingData } from '@/hooks/useWeddingData';
+import { useThemeColors } from '@/hooks/useThemeColors';
 import Countdown from './Countdown';
 
 const Hero = () => {
   const { weddingData } = useWeddingData();
+  const { background } = useThemeColors();
   const { 
     brideFirstName,
     brideLastName,
@@ -16,7 +18,7 @@ const Hero = () => {
   return (
     <section 
       id="inicio" 
-      className="min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-wedding-cream to-white px-4"
+      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4`}
     >
       {/* Mobile background */}
       <div 

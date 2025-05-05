@@ -1,7 +1,9 @@
-
 import { useEffect } from 'react';
+import { useThemeColors } from '@/hooks/useThemeColors';
 
 const Tips = () => {
+  const { background, secondary, accent } = useThemeColors();
+
   // Función para animar elementos cuando se hacen visibles
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,7 +26,7 @@ const Tips = () => {
   }, []);
 
   return (
-    <section id="recomendaciones" className="section-container bg-wedding-cream/30">
+    <section id="recomendaciones" className={`section-container bg-[${background}]/30`}>
       <h2 className="section-title reveal">Recomendaciones</h2>
       
       <div className="max-w-3xl mx-auto">
@@ -34,7 +36,7 @@ const Tips = () => {
           <div className="space-y-5">
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-wedding-pink text-wedding-gold">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-[${secondary}] text-[${accent}]`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -52,7 +54,7 @@ const Tips = () => {
             
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-wedding-pink text-wedding-gold">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-[${secondary}] text-[${accent}]`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                   </svg>
@@ -68,7 +70,7 @@ const Tips = () => {
             
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-wedding-pink text-wedding-gold">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-[${secondary}] text-[${accent}]`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -85,7 +87,7 @@ const Tips = () => {
             
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-wedding-pink text-wedding-gold">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-[${secondary}] text-[${accent}]`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>
@@ -104,7 +106,7 @@ const Tips = () => {
             
             <div className="flex">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-wedding-pink text-wedding-gold">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-[${secondary}] text-[${accent}]`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                     <polyline points="22 4 12 14.01 9 11.01"></polyline>
