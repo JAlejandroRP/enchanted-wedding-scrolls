@@ -24,11 +24,7 @@ const InvitationContent = () => {
     if (publicId) {
       loadInvitation(publicId);
     }
-    
-    // Scroll to top when component mounts
-    window.scrollTo(0, 0);
-    
-  }, [publicId, loadInvitation]);
+  }, [publicId]);
 
   if (loading) {
     return (

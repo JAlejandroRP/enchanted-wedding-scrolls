@@ -50,7 +50,7 @@ export const PublicInvitationProvider = ({ children }: { children: ReactNode }) 
       };
       
       setWeddingData(data);
-      
+      setLoading(false);
       // Apply theme colors to CSS variables
       if (data.themeColors) {
         document.documentElement.style.setProperty('--wedding-primary', data.themeColors.primary);
