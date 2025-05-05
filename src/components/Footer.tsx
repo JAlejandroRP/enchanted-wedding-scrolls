@@ -1,19 +1,33 @@
 
+import { useNavigate } from 'react-router-dom';
+import { Settings } from 'lucide-react';
+
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  
+  const navigate = useNavigate();
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-wedding-cream py-8">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="font-playfair text-3xl md:text-4xl mb-4">J & E</h2>
+    <footer className="py-8 bg-[#3E000C]/10 text-center">
+      <div className="container mx-auto">
+        <h3 className="font-playfair text-2xl text-[#3E000C] mb-4">
+          Juan & Elena
+        </h3>
         
-        <p className="text-gray-700 mb-6">
-          Gracias por ser parte de nuestra historia de amor.
+        <p className="text-sm mb-6 text-[#3E000C]/80">
+          Gracias por compartir este momento especial con nosotros.
         </p>
         
-        <div className="text-sm text-gray-500">
-          &copy; {currentYear} | Con amor, los novios
+        <div className="text-[#3E000C]/60 text-xs">
+          &copy; {year} Juan & Elena | Todos los derechos reservados
         </div>
+        
+        <button 
+          onClick={() => navigate('/admin')}
+          className="mt-6 text-[#3E000C]/40 text-xs flex items-center mx-auto hover:text-[#3E000C]/60 transition-colors"
+        >
+          <Settings className="w-3 h-3 mr-1" />
+          Administrar
+        </button>
       </div>
     </footer>
   );

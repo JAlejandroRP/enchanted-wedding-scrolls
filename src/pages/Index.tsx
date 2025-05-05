@@ -9,30 +9,10 @@ import Tips from "../components/Tips";
 import PhotoShare from "../components/PhotoShare";
 import Footer from "../components/Footer";
 import { useMultipleIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { useWeddingData } from "../hooks/useWeddingData";
 
 const Index = () => {
-  // Datos de ejemplo (aquí pondrías los datos reales de la boda)
-  const weddingDate = new Date('2025-05-15T16:00:00');
-  const brideData = {
-    firstName: 'Elena',
-    lastName: 'García'
-  };
-  const groomData = {
-    firstName: 'Juan',
-    lastName: 'López'
-  };
-  const ceremonyLocation = {
-    name: 'Catedral de Santa María',
-    address: 'Calle Principal 123, Ciudad',
-    time: '16:00 hrs',
-    mapUrl: 'https://maps.google.com'
-  };
-  const receptionLocation = {
-    name: 'Hacienda Los Laureles',
-    address: 'Carretera Norte km 15, Ciudad',
-    time: '18:00 hrs',
-    mapUrl: 'https://maps.google.com'
-  };
+  const { weddingData } = useWeddingData();
 
   // Hook para animar elementos cuando aparecen en viewport
   useMultipleIntersectionObserver();
@@ -64,18 +44,12 @@ const Index = () => {
     <div className="min-h-screen">
       <Header />
       
-      <Hero 
-        brideFirstName={brideData.firstName}
-        brideLastName={brideData.lastName}
-        groomFirstName={groomData.firstName}
-        groomLastName={groomData.lastName}
-        weddingDate={weddingDate}
-      />
+      <Hero />
       
       <EventDetails 
-        weddingDate={weddingDate}
-        ceremony={ceremonyLocation}
-        reception={receptionLocation}
+        weddingDate={weddingData.weddingDate}
+        ceremony={weddingData.ceremonyLocation}
+        reception={weddingData.receptionLocation}
       />
       
       <Gallery />

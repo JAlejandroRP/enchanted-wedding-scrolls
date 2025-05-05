@@ -1,27 +1,24 @@
 
+import { useWeddingData } from '@/hooks/useWeddingData';
 import Countdown from './Countdown';
 
-interface HeroProps {
-  brideFirstName: string;
-  brideLastName: string;
-  groomFirstName: string;
-  groomLastName: string;
-  weddingDate: Date;
-}
+const Hero = () => {
+  const { weddingData } = useWeddingData();
+  const { 
+    brideFirstName,
+    brideLastName,
+    groomFirstName,
+    groomLastName,
+    weddingDate,
+    backgroundImageUrl
+  } = weddingData;
 
-const Hero = ({
-  brideFirstName,
-  brideLastName,
-  groomFirstName,
-  groomLastName,
-  weddingDate
-}: HeroProps) => {
   return (
     <section 
       id="inicio" 
       className="min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-wedding-cream to-white px-4"
       style={{
-        backgroundImage: `url('https://i.pinimg.com/736x/dd/55/d9/dd55d91f2b11d742cc6cf24e5590d2f3.jpg')`,
+        backgroundImage: `url('${backgroundImageUrl}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}

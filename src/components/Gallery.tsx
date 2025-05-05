@@ -1,17 +1,11 @@
 
 import { useEffect, useState } from 'react';
 import { Image } from 'lucide-react';
+import { useWeddingData } from '@/hooks/useWeddingData';
 
 const Gallery = () => {
-  // Arreglo de imágenes de ejemplo (aquí se utilizan imágenes de placeholder)
-  const images = [
-    "https://i.pinimg.com/736x/e9/bb/fd/e9bbfd9f03acd634ff70a2a3e3af1157.jpg",
-    "https://i.pinimg.com/736x/7f/59/8c/7f598cdfba265fe4367d75abe8468f95.jpg",
-    "https://i.pinimg.com/736x/ce/9d/c3/ce9dc3c4081ccc762c1c928119405d89.jpg",
-    "https://i.pinimg.com/736x/0e/a6/de/0ea6dee891335f18416a8b6cf9148445.jpg",
-    "https://i.pinimg.com/736x/f2/89/81/f289810ccc03cca40b06eacd89177137.jpg",
-    "https://i.pinimg.com/736x/88/a5/95/88a595f98f36abca34f5c8049163941b.jpg"
-  ];
+  const { weddingData } = useWeddingData();
+  const { galleryImages } = weddingData;
   
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
@@ -48,7 +42,7 @@ const Gallery = () => {
       </div>
       
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        {images.map((image, index) => (
+        {galleryImages.map((image, index) => (
           <div 
             key={index} 
             className="aspect-square overflow-hidden rounded-lg cursor-pointer reveal"
