@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define the wedding data types
@@ -25,6 +24,7 @@ export interface WeddingData {
     mapIframe?: string;
   };
   backgroundImageUrl: string;
+  mobileBackgroundImageUrl?: string;
   galleryImages: string[];
   dressCode: {
     formalWear: string[];
@@ -71,6 +71,7 @@ const defaultWeddingData: WeddingData = {
     mapIframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18427.711817074403!2d-101.05742334766953!3d22.12035661713663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842a9963cb199a5d%3A0x11caaa03316b14b7!2sSal%C3%B3n%20de%20Eventos%20Club%20La%20Loma!5e1!3m2!1ses-419!2smx!4v1746476028675!5m2!1ses-419!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
   },
   backgroundImageUrl: 'https://i.pinimg.com/736x/dd/55/d9/dd55d91f2b11d742cc6cf24e5590d2f3.jpg',
+  mobileBackgroundImageUrl: 'https://i.pinimg.com/736x/dd/55/d9/dd55d91f2b11d742cc6cf24e5590d2f3.jpg',
   galleryImages: [
     "https://i.pinimg.com/736x/e9/bb/fd/e9bbfd9f03acd634ff70a2a3e3af1157.jpg",
     "https://i.pinimg.com/736x/7f/59/8c/7f598cdfba265fe4367d75abe8468f95.jpg",

@@ -1,4 +1,3 @@
-
 import { useWeddingData } from '@/hooks/useWeddingData';
 import Countdown from './Countdown';
 
@@ -10,19 +9,31 @@ const Hero = () => {
     groomFirstName,
     groomLastName,
     weddingDate,
-    backgroundImageUrl
+    backgroundImageUrl,
+    mobileBackgroundImageUrl
   } = weddingData;
 
   return (
     <section 
       id="inicio" 
       className="min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-wedding-cream to-white px-4"
-      style={{
-        backgroundImage: `url('${backgroundImageUrl}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
     >
+      {/* Mobile background */}
+      <div 
+        className="md:hidden absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`
+        }}
+      ></div>
+      
+      {/* Desktop background */}
+      <div 
+        className="hidden md:block absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('${backgroundImageUrl}')`
+        }}
+      ></div>
+      
       <div className="absolute inset-0 bg-black/20"></div>
       
       <div className="container mx-auto text-center relative z-10">

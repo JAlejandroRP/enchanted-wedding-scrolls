@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -432,6 +431,24 @@ const Admin = () => {
                       <img 
                         src={formData.backgroundImageUrl} 
                         alt="Fondo" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="mobileBackgroundImageUrl">Imagen de Fondo Móvil (URL)</Label>
+                  <Input 
+                    id="mobileBackgroundImageUrl" 
+                    value={formData.mobileBackgroundImageUrl || ''} 
+                    onChange={(e) => handleInputChange(e, 'mobileBackgroundImageUrl')}
+                  />
+                  {formData.mobileBackgroundImageUrl && (
+                    <div className="mt-2 h-32 rounded-md overflow-hidden">
+                      <img 
+                        src={formData.mobileBackgroundImageUrl} 
+                        alt="Fondo Móvil" 
                         className="w-full h-full object-cover"
                       />
                     </div>
