@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { WeddingData } from '@/types/wedding';
-import { useInvitations } from '@/hooks/useInvitations';
+import { useInvitations, Invitation } from '@/hooks/useInvitations';
 
 interface PublicInvitationContextType {
   weddingData: WeddingData | null;
@@ -28,6 +28,7 @@ export const PublicInvitationProvider = ({ children }: { children: ReactNode }) 
       if (!invitation) {
         setError('Invitación no encontrada');
         setWeddingData(null);
+        setLoading(false);
         return;
       }
       

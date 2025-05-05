@@ -5,8 +5,9 @@ import { useAuth } from '@/hooks/useAuth';
 import { WeddingData } from '@/types/wedding';
 import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
+import { Json } from '@/integrations/supabase/types';
 
-interface Invitation {
+export interface Invitation {
   id: string;
   public_id: string;
   created_at: string;
@@ -17,14 +18,14 @@ interface Invitation {
   groom_first_name: string;
   groom_last_name: string;
   wedding_date: string;
-  ceremony_location: object;
-  reception_location: object;
+  ceremony_location: Json;
+  reception_location: Json;
   background_image_url: string;
   mobile_background_image_url: string | null;
-  gallery_images: string[];
-  dress_code: object;
-  gifts_info: object;
-  theme_colors: object;
+  gallery_images: Json;
+  dress_code: Json;
+  gifts_info: Json;
+  theme_colors: Json;
 }
 
 export const useInvitations = () => {
@@ -51,7 +52,7 @@ export const useInvitations = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setInvitations(data || []);
+      setInvitations(data as Invitation[]);
     } catch (error: any) {
       console.error('Error fetching invitations:', error.message);
       toast({
@@ -70,10 +71,10 @@ export const useInvitations = () => {
         .from('invitations')
         .select('*')
         .eq('public_id', publicId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      return data as Invitation;
+      return data as Invitation | null;
     } catch (error: any) {
       console.error('Error fetching invitation:', error.message);
       return null;
@@ -104,12 +105,12 @@ export const useInvitations = () => {
         wedding_date: weddingDate,
         background_image_url: weddingData.backgroundImageUrl,
         mobile_background_image_url: weddingData.mobileBackgroundImageUrl || null,
-        ceremony_location: weddingData.ceremonyLocation,
-        reception_location: weddingData.receptionLocation,
-        gallery_images: weddingData.galleryImages,
-        dress_code: weddingData.dressCode,
-        gifts_info: weddingData.giftsInfo,
-        theme_colors: weddingData.themeColors
+        ceremony_location: weddingData.ceremonyLocation as Json,
+        reception_location: weddingData.receptionLocation as Json,
+        gallery_images: weddingData.galleryImages as unknown as Json,
+        dress_code: weddingData.dressCode as unknown as Json,
+        gifts_info: weddingData.giftsInfo as unknown as Json,
+        theme_colors: weddingData.themeColors as unknown as Json
       };
 
       const { data, error } = await supabase
@@ -162,12 +163,12 @@ export const useInvitations = () => {
         wedding_date: weddingDate,
         background_image_url: weddingData.backgroundImageUrl,
         mobile_background_image_url: weddingData.mobileBackgroundImageUrl || null,
-        ceremony_location: weddingData.ceremonyLocation,
-        reception_location: weddingData.receptionLocation,
-        gallery_images: weddingData.galleryImages,
-        dress_code: weddingData.dressCode,
-        gifts_info: weddingData.giftsInfo,
-        theme_colors: weddingData.themeColors,
+        ceremony_location: weddingData.ceremonyLocation as unknown as Json,
+        reception_location: weddingData.receptionLocation as unknown as Json,
+        gallery_images: weddingData.galleryImages as unknown as Json,
+        dress_code: weddingData.dressCode as unknown as Json,
+        gifts_info: weddingData.giftsInfo as unknown as Json,
+        theme_colors: weddingData.themeColors as unknown as Json,
         updated_at: new Date().toISOString()
       };
 
