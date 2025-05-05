@@ -43,6 +43,12 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Wedding variables */
+    --wedding-primary: #3E000C;
+    --wedding-secondary: #D4B2A7;
+    --wedding-accent: #B3B792;
+    --wedding-background: #E5E0D8;
   }
 
   .dark {
@@ -78,7 +84,7 @@
   }
   
   body {
-    @apply bg-[#E5E0D8] text-[#3E000C] font-montserrat;
+    @apply bg-wedding-background text-wedding-primary font-montserrat;
     background-image: 
       linear-gradient(to right, rgba(212, 178, 167, 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(212, 178, 167, 0.05) 1px, transparent 1px);
@@ -96,12 +102,12 @@
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl font-playfair font-medium text-center mb-10 relative;
+    @apply text-3xl md:text-4xl font-playfair font-medium text-center mb-10 relative text-wedding-primary;
   }
   
   .section-title::after {
     content: "";
-    @apply block w-20 h-0.5 bg-[#D4B2A7] mx-auto mt-3;
+    @apply block w-20 h-0.5 bg-wedding-secondary mx-auto mt-3;
   }
   
   .reveal {
@@ -117,11 +123,11 @@
   }
   
   .btn-primary {
-    @apply bg-[#D4B2A7] text-[#3E000C] hover:bg-[#D4B2A7]/80;
+    @apply bg-wedding-secondary text-wedding-primary hover:bg-opacity-80;
   }
   
   .btn-outline {
-    @apply border border-[#D4B2A7] text-[#3E000C] hover:bg-[#D4B2A7] hover:text-white;
+    @apply border border-wedding-secondary text-wedding-primary hover:bg-wedding-secondary hover:text-white;
   }
   
   .animate-on-scroll {

@@ -1,8 +1,12 @@
 
 import { useEffect } from 'react';
 import { Gift } from 'lucide-react';
+import { useWeddingData } from '@/hooks/useWeddingData';
 
 const Gifts = () => {
+  const { weddingData } = useWeddingData();
+  const { giftsInfo } = weddingData;
+
   // Función para animar elementos cuando se hacen visibles
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,15 +47,17 @@ const Gifts = () => {
             Hemos creado una mesa de regalos en las siguientes tiendas departamentales.
           </p>
           <div className="space-y-3">
-            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
-              Liverpool
-            </a>
-            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
-              Palacio de Hierro
-            </a>
-            <a href="#" className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]">
-              Amazon
-            </a>
+            {giftsInfo.giftRegistries.map((registry, index) => (
+              <a 
+                key={index}
+                href={registry.url} 
+                className="block p-3 border border-[#D4B2A7] rounded-md hover:bg-[#D4B2A7]/10 transition-colors text-center text-[#3E000C]"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {registry.name}
+              </a>
+            ))}
           </div>
         </div>
         
@@ -62,9 +68,9 @@ const Gifts = () => {
           </p>
           <div className="border-t border-dashed border-[#D4B2A7]/50 pt-4 mt-4">
             <p className="text-sm text-[#3E000C]/70 mb-2">Datos bancarios:</p>
-            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Banco:</span> Ejemplo</p>
-            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Titular:</span> Nombres de los novios</p>
-            <p className="mb-1 text-[#3E000C]"><span className="font-medium">CLABE:</span> 1234 5678 9012 3456</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Banco:</span> {giftsInfo.bankInfo.bank}</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">Titular:</span> {giftsInfo.bankInfo.accountHolder}</p>
+            <p className="mb-1 text-[#3E000C]"><span className="font-medium">CLABE:</span> {giftsInfo.bankInfo.accountNumber}</p>
           </div>
         </div>
         
@@ -74,30 +80,14 @@ const Gifts = () => {
             Hemos preparado una lista de artículos específicos que nos encantaría recibir.
           </p>
           <ul className="space-y-2 text-[#3E000C]">
-            <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Electrodomésticos para el hogar
-            </li>
-            <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Artículos de decoración
-            </li>
-            <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Utensilios de cocina
-            </li>
-            <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Experiencias para nuestra luna de miel
-            </li>
+            {giftsInfo.wishlist.map((item, index) => (
+              <li key={index} className="flex items-center">
+                <svg className="w-4 h-4 mr-2 text-[#B3B792]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                {item}
+              </li>
+            ))}
           </ul>
           <a href="#" className="btn btn-outline w-full mt-4 text-center">Ver lista completa</a>
         </div>

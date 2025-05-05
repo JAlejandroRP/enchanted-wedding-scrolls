@@ -29,16 +29,16 @@ const Header = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isSticky ? 'bg-white/90 backdrop-blur-sm shadow-sm py-3' : 'py-5 bg-transparent'
+        isSticky ? 'bg-white/90 backdrop-blur-sm shadow-sm py-3' : 'py-5 bg-white/50 backdrop-blur-sm'
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
-          <div className="font-playfair text-xl md:text-2xl">J & E</div>
+          <div className="font-playfair text-xl md:text-2xl text-[#3E000C]">J & E</div>
           
           {/* Mobile menu button */}
           <button 
-            className="md:hidden"
+            className="md:hidden text-[#3E000C]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
@@ -53,12 +53,12 @@ const Header = () => {
           
           {/* Desktop menu */}
           <nav className="hidden md:flex space-x-6 text-sm">
-            <button onClick={() => scrollToSection('inicio')} className="hover:text-wedding-gold transition-colors">Inicio</button>
-            <button onClick={() => scrollToSection('evento')} className="hover:text-wedding-gold transition-colors">Evento</button>
-            <button onClick={() => scrollToSection('galeria')} className="hover:text-wedding-gold transition-colors">Galería</button>
-            <button onClick={() => scrollToSection('regalos')} className="hover:text-wedding-gold transition-colors">Regalos</button>
-            <button onClick={() => scrollToSection('recomendaciones')} className="hover:text-wedding-gold transition-colors">Recomendaciones</button>
-            <button onClick={() => scrollToSection('compartir')} className="hover:text-wedding-gold transition-colors">Compartir</button>
+            <button onClick={() => scrollToSection('inicio')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Inicio</button>
+            <button onClick={() => scrollToSection('evento')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Evento</button>
+            <button onClick={() => scrollToSection('galeria')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Galería</button>
+            <button onClick={() => scrollToSection('regalos')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Regalos</button>
+            <button onClick={() => scrollToSection('recomendaciones')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Recomendaciones</button>
+            <button onClick={() => scrollToSection('compartir')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Compartir</button>
           </nav>
         </div>
         
@@ -66,12 +66,12 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden mt-4 bg-white rounded-lg shadow-md p-4 animate-fade-in">
             <nav className="flex flex-col space-y-3">
-              <button onClick={() => scrollToSection('inicio')} className="hover:text-wedding-gold transition-colors">Inicio</button>
-              <button onClick={() => scrollToSection('evento')} className="hover:text-wedding-gold transition-colors">Evento</button>
-              <button onClick={() => scrollToSection('galeria')} className="hover:text-wedding-gold transition-colors">Galería</button>
-              <button onClick={() => scrollToSection('regalos')} className="hover:text-wedding-gold transition-colors">Regalos</button>
-              <button onClick={() => scrollToSection('recomendaciones')} className="hover:text-wedding-gold transition-colors">Recomendaciones</button>
-              <button onClick={() => scrollToSection('compartir')} className="hover:text-wedding-gold transition-colors">Compartir</button>
+              <button onClick={() => scrollToSection('inicio')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Inicio</button>
+              <button onClick={() => scrollToSection('evento')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Evento</button>
+              <button onClick={() => scrollToSection('galeria')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Galería</button>
+              <button onClick={() => scrollToSection('regalos')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Regalos</button>
+              <button onClick={() => scrollToSection('recomendaciones')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Recomendaciones</button>
+              <button onClick={() => scrollToSection('compartir')} className="text-[#3E000C] hover:text-[#D4B2A7] transition-colors">Compartir</button>
             </nav>
           </div>
         )}

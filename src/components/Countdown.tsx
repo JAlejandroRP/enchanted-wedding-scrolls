@@ -19,6 +19,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
     minutes: 0,
     seconds: 0
   });
+  const [isWeddingDay, setIsWeddingDay] = useState(false);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -31,6 +32,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60)
         });
+        setIsWeddingDay(false);
       } else {
         // Si ya pasó la fecha
         setTimeLeft({
@@ -39,6 +41,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
           minutes: 0,
           seconds: 0
         });
+        setIsWeddingDay(true);
       }
     };
 
@@ -47,6 +50,19 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
 
     return () => clearInterval(timer);
   }, [weddingDate]);
+
+  if (isWeddingDay) {
+    return (
+      <div className="w-full max-w-lg mx-auto text-center">
+        <h3 className="font-playfair font-bold text-3xl md:text-4xl mb-2 text-white">
+          ¡Hoy es el gran día!
+        </h3>
+        <p className="text-white/90 text-lg">
+          Gracias por ser parte de nuestra celebración
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-lg mx-auto">

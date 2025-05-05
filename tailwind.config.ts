@@ -30,6 +30,10 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				wedding: {
+					'primary': 'var(--wedding-primary)',
+					'secondary': 'var(--wedding-secondary)',
+					'accent': 'var(--wedding-accent)',
+					'background': 'var(--wedding-background)',
 					'pink': '#f8e1e4',
 					'gold': '#d4af37',
 					'cream': '#f8f4e3',
