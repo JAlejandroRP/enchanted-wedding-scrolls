@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import Header from "../components/Header";
 import Hero from "../components/Hero";
@@ -21,15 +20,14 @@ const Index = () => {
   useEffect(() => {
     // Inicializamos el efecto de scroll
     const handleScroll = () => {
-      const revealElements = document.querySelectorAll('.animate-on-scroll');
+      const revealElements = document.querySelectorAll('.reveal');
       
       revealElements.forEach((element) => {
         const elementTop = element.getBoundingClientRect().top;
         const elementVisible = 150;
         
         if (elementTop < window.innerHeight - elementVisible) {
-          element.classList.add('animate-fade-in');
-          element.classList.remove('opacity-0');
+          element.classList.add('active');
         }
       });
     };
