@@ -27,7 +27,7 @@ export const useWeddingForm = (initialData: WeddingData) => {
           return {
             ...prev,
             [field]: {
-              ...currentValue,
+              ...(currentValue as object),
               [nestedField]: e.target.value
             }
           };
@@ -257,4 +257,4 @@ export const useWeddingForm = (initialData: WeddingData) => {
     handleColorChange,
     resetForm
   };
-}; 
+};

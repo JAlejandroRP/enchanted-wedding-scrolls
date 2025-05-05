@@ -9,7 +9,90 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      invitations: {
+        Row: {
+          background_image_url: string
+          bride_first_name: string
+          bride_last_name: string
+          ceremony_location: Json
+          created_at: string
+          dress_code: Json
+          gallery_images: Json
+          gifts_info: Json
+          groom_first_name: string
+          groom_last_name: string
+          id: string
+          mobile_background_image_url: string | null
+          public_id: string
+          reception_location: Json
+          theme_colors: Json
+          updated_at: string
+          user_id: string
+          wedding_date: string
+        }
+        Insert: {
+          background_image_url: string
+          bride_first_name: string
+          bride_last_name: string
+          ceremony_location: Json
+          created_at?: string
+          dress_code: Json
+          gallery_images: Json
+          gifts_info: Json
+          groom_first_name: string
+          groom_last_name: string
+          id?: string
+          mobile_background_image_url?: string | null
+          public_id: string
+          reception_location: Json
+          theme_colors: Json
+          updated_at?: string
+          user_id: string
+          wedding_date: string
+        }
+        Update: {
+          background_image_url?: string
+          bride_first_name?: string
+          bride_last_name?: string
+          ceremony_location?: Json
+          created_at?: string
+          dress_code?: Json
+          gallery_images?: Json
+          gifts_info?: Json
+          groom_first_name?: string
+          groom_last_name?: string
+          id?: string
+          mobile_background_image_url?: string | null
+          public_id?: string
+          reception_location?: Json
+          theme_colors?: Json
+          updated_at?: string
+          user_id?: string
+          wedding_date?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
