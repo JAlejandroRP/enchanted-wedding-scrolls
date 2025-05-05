@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { WeddingData, FormData } from '@/types/wedding';
+import { WeddingData, FormData, Location, GiftsInfo, DressCode, ThemeColors } from '@/types/wedding';
 
 export const useWeddingForm = (initialData: WeddingData) => {
   const [formData, setFormData] = useState<FormData>({
@@ -21,13 +21,19 @@ export const useWeddingForm = (initialData: WeddingData) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof FormData, nestedField?: string) => {
     if (nestedField) {
-      setFormData(prev => ({
-        ...prev,
-        [field]: {
-          ...prev[field],
-          [nestedField]: e.target.value
+      setFormData(prev => {
+        const currentValue = prev[field];
+        if (typeof currentValue === 'object' && currentValue !== null) {
+          return {
+            ...prev,
+            [field]: {
+              ...currentValue,
+              [nestedField]: e.target.value
+            }
+          };
         }
-      }));
+        return prev;
+      });
     } else {
       setFormData(prev => ({
         ...prev,
@@ -42,16 +48,25 @@ export const useWeddingForm = (initialData: WeddingData) => {
     child: string, 
     field: string
   ) => {
-    setFormData(prev => ({
-      ...prev,
-      [parent]: {
-        ...prev[parent],
-        [child]: {
-          ...(prev[parent] as any)[child],
-          [field]: e.target.value
+    setFormData(prev => {
+      const parentValue = prev[parent];
+      if (typeof parentValue === 'object' && parentValue !== null) {
+        const childValue = ((parentValue as unknown) as { [key: string]: unknown })[child];
+        if (typeof childValue === 'object' && childValue !== null) {
+          return {
+            ...prev,
+            [parent]: {
+              ...parentValue,
+              [child]: {
+                ...childValue,
+                [field]: e.target.value
+              }
+            }
+          };
         }
       }
-    }));
+      return prev;
+    });
   };
 
   const handleDateSelect = (date: Date | undefined) => {
