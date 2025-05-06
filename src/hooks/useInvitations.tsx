@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
@@ -120,7 +119,11 @@ export const useInvitations = () => {
       const ceremonyLocationJson = JSON.parse(JSON.stringify(weddingData.ceremonyLocation)) as Json;
       const receptionLocationJson = JSON.parse(JSON.stringify(weddingData.receptionLocation)) as Json;
 
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Usuario no autenticado');
+
       const { data, error } = await supabase.from('invitations').insert({
+        user_id: user.id,
         public_id: publicId,
         bride_first_name: weddingData.brideFirstName,
         bride_last_name: weddingData.brideLastName,
