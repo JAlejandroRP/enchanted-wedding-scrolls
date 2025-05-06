@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { Image, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Image } from 'lucide-react';
 import { useWeddingData } from '@/hooks/useWeddingData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 
@@ -9,41 +9,6 @@ const Gallery = () => {
   const { galleryImages } = weddingData;
   
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const autoplayInterval = useRef<NodeJS.Timeout>();
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1
-    );
-  };
-
-  const toggleAutoplay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  // Autoplay functionality
-  useEffect(() => {
-    if (isPlaying) {
-      autoplayInterval.current = setInterval(() => {
-        nextSlide();
-      }, 5000); // Change slide every 5 seconds
-    }
-
-    return () => {
-      if (autoplayInterval.current) {
-        clearInterval(autoplayInterval.current);
-      }
-    };
-  }, [isPlaying]);
 
   // Función para animar elementos cuando se hacen visibles
   useEffect(() => {
@@ -77,74 +42,21 @@ const Gallery = () => {
         </p>
       </div>
       
-      <div 
-        className="relative max-w-4xl mx-auto"
-        onMouseEnter={() => setIsPlaying(false)}
-        onMouseLeave={() => setIsPlaying(true)}
-      >
-        <div 
-          ref={carouselRef}
-          className="relative overflow-hidden rounded-lg"
-        >
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        {galleryImages.map((image, index) => (
           <div 
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            key={index} 
+            className="aspect-square overflow-hidden rounded-lg cursor-pointer reveal"
+            onClick={() => setActiveImage(image)}
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
-            {galleryImages.map((image, index) => (
-              <div 
-                key={index} 
-                className="w-full flex-shrink-0 aspect-video cursor-pointer reveal"
-                onClick={() => setActiveImage(image)}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <img 
-                  src={image} 
-                  alt={`Foto ${index + 1}`} 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Navigation Buttons */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-          aria-label="Imagen anterior"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-          aria-label="Siguiente imagen"
-        >
-          <ChevronRight size={24} />
-        </button>
-
-        {/* Play/Pause Button */}
-        <button
-          onClick={toggleAutoplay}
-          className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
-          aria-label={isPlaying ? "Pausar" : "Reproducir"}
-        >
-          {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-        </button>
-
-        {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-4">
-          {galleryImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentIndex ? 'bg-black' : 'bg-gray-300'
-              }`}
-              aria-label={`Ir a imagen ${index + 1}`}
+            <img 
+              src={image} 
+              alt={`Foto ${index + 1}`} 
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" 
             />
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
       
       {/* Modal para ver imagen ampliada */}

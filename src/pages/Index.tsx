@@ -1,6 +1,4 @@
-
 import { useEffect } from 'react';
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import EventDetails from "../components/EventDetails";

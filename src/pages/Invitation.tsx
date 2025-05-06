@@ -24,21 +24,19 @@ const InvitationContent = () => {
     if (publicId) {
       loadInvitation(publicId);
     }
-  }, [publicId, loadInvitation]);
+  }, [publicId]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#E5E0D8]">
-        <div className="animate-pulse">
-          <p className="text-[#3E000C] text-lg">Cargando invitación...</p>
-        </div>
+        <p className="text-[#3E000C] text-lg">Cargando invitación...</p>
       </div>
     );
   }
 
   if (error || !weddingData) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#E5E0D8] p-4 animate-fade-in">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#E5E0D8] p-4">
         <h1 className="text-3xl font-playfair text-[#3E000C] mb-4">Invitación no encontrada</h1>
         <p className="text-[#3E000C]/70 mb-6 text-center">
           {error || "La invitación que estás buscando no existe o ha sido eliminada."}
