@@ -52,12 +52,17 @@ const Gifts = () => {
               <a 
                 key={index}
                 href={registry.url} 
-                className="block p-3 border rounded-md hover:bg-[${secondary}]/10 transition-colors text-center text-black"
+                className="btn btn-outline text-sm inline-flex items-center justify-center md:justify-start w-full md:w-auto"
                 style={{ borderColor: secondary }}
                 target="_blank"
                 rel="noreferrer"
               >
                 {registry.name}
+                <svg className="ml-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
               </a>
             ))}
           </div>
@@ -91,7 +96,18 @@ const Gifts = () => {
               </li>
             ))}
           </ul>
-          <a href="#" className="btn btn-outline w-full mt-4 text-center text-black" style={{ borderColor: secondary }}>Ver lista completa</a>
+          <a 
+            href="#" 
+            className="btn btn-outline text-sm inline-flex items-center justify-center md:justify-start w-full md:w-auto mt-4"
+            style={{ borderColor: secondary }}
+          >
+            Ver lista completa
+            <svg className="ml-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
         </div>
       </div>
     </section>

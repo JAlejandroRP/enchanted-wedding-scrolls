@@ -83,13 +83,6 @@ const Gallery = () => {
           </div>
         </div>
       )}
-      
-      <div className="text-center mt-12 reveal">
-        <a href="#compartir" className="btn btn-primary inline-flex items-center">
-          <Image size={20} className="mr-2" />
-          Comparte tus fotos
-        </a>
-      </div>
     </section>
   );
 };
