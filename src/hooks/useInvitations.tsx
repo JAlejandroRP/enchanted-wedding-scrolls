@@ -1,27 +1,25 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { WeddingData } from '@/types/wedding';
-import { nanoid } from 'nanoid';
 import { toast } from '@/hooks/use-toast';
+import { WeddingData, Location } from '@/types/wedding';
 import { Json } from '@/integrations/supabase/types';
 
 export interface Invitation {
   id: string;
-  public_id: string;
   created_at: string;
-  updated_at: string;
   user_id: string;
+  public_id: string;
   bride_first_name: string;
   bride_last_name: string;
   groom_first_name: string;
   groom_last_name: string;
   wedding_date: string;
-  ceremony_location: Json;
-  reception_location: Json;
   background_image_url: string;
   mobile_background_image_url: string | null;
+  ceremony_location: Json;
+  reception_location: Json;
   gallery_images: Json;
   dress_code: Json;
   gifts_info: Json;
@@ -29,37 +27,58 @@ export interface Invitation {
 }
 
 export const useInvitations = () => {
-  const { user } = useAuth();
-  const [invitations, setInvitations] = useState<Invitation[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchUserInvitations();
-    } else {
-      setInvitations([]);
+  const getUserInvitations = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const { data, error } = await supabase
+        .from('invitations')
+        .select('*');
+
+      if (error) throw new Error(error.message);
+
+      return data as Invitation[];
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al obtener las invitaciones';
+      setError(errorMessage);
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      return [];
+    } finally {
       setLoading(false);
     }
-  }, [user]);
+  };
 
-  const fetchUserInvitations = async () => {
-    setLoading(true);
+  const getInvitationById = async (id: string) => {
     try {
+      setLoading(true);
+      setError(null);
+
       const { data, error } = await supabase
         .from('invitations')
         .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false });
+        .eq('id', id)
+        .single();
 
-      if (error) throw error;
-      setInvitations(data as Invitation[]);
-    } catch (error: any) {
-      console.error('Error fetching invitations:', error.message);
+      if (error) throw new Error(error.message);
+
+      return data as Invitation;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al obtener la invitación';
+      setError(errorMessage);
       toast({
-        title: "Error",
-        description: "No se pudieron cargar las invitaciones",
-        variant: "destructive"
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
       });
+      return null;
     } finally {
       setLoading(false);
     }
@@ -67,178 +86,171 @@ export const useInvitations = () => {
 
   const getInvitationByPublicId = async (publicId: string) => {
     try {
+      setLoading(true);
+      setError(null);
+
       const { data, error } = await supabase
         .from('invitations')
         .select('*')
         .eq('public_id', publicId)
         .maybeSingle();
 
-      if (error) throw error;
-      return data as Invitation | null;
-    } catch (error: any) {
-      console.error('Error fetching invitation:', error.message);
+      if (error) throw new Error(error.message);
+      if (!data) return null;
+
+      return data as Invitation;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al obtener la invitación';
+      setError(errorMessage);
+      console.error('Error loading invitation:', err);
       return null;
+    } finally {
+      setLoading(false);
     }
   };
 
-  const saveInvitation = async (weddingData: WeddingData) => {
-    if (!user) {
-      toast({
-        title: "Error",
-        description: "Debes iniciar sesión para guardar invitaciones",
-        variant: "destructive"
-      });
-      return null;
-    }
-
+  const createInvitation = async (weddingData: WeddingData) => {
     try {
-      // Convert wedding date to ISO string for database storage
-      const weddingDate = weddingData.weddingDate.toISOString();
+      setLoading(true);
+      setError(null);
 
-      const invitation = {
-        user_id: user.id,
-        public_id: nanoid(10),
+      const publicId = uuidv4().substring(0, 8); // Generate a short unique ID
+
+      // Convert Location objects to JSON-compatible format for Supabase
+      const ceremonyLocationJson = JSON.parse(JSON.stringify(weddingData.ceremonyLocation)) as Json;
+      const receptionLocationJson = JSON.parse(JSON.stringify(weddingData.receptionLocation)) as Json;
+
+      const { data, error } = await supabase.from('invitations').insert({
+        public_id: publicId,
         bride_first_name: weddingData.brideFirstName,
         bride_last_name: weddingData.brideLastName,
         groom_first_name: weddingData.groomFirstName,
         groom_last_name: weddingData.groomLastName,
-        wedding_date: weddingDate,
+        wedding_date: weddingData.weddingDate.toISOString(),
         background_image_url: weddingData.backgroundImageUrl,
-        mobile_background_image_url: weddingData.mobileBackgroundImageUrl || null,
-        ceremony_location: weddingData.ceremonyLocation as Json,
-        reception_location: weddingData.receptionLocation as Json,
-        gallery_images: weddingData.galleryImages as unknown as Json,
-        dress_code: weddingData.dressCode as unknown as Json,
-        gifts_info: weddingData.giftsInfo as unknown as Json,
-        theme_colors: weddingData.themeColors as unknown as Json
-      };
-
-      const { data, error } = await supabase
-        .from('invitations')
-        .insert([invitation])
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      await fetchUserInvitations();
-
-      toast({
-        title: "Éxito",
-        description: "Invitación guardada correctamente",
-      });
-
-      return data;
-
-    } catch (error: any) {
-      console.error('Error saving invitation:', error.message);
-      toast({
-        title: "Error",
-        description: "No se pudo guardar la invitación",
-        variant: "destructive"
-      });
-      return null;
-    }
-  };
-
-  const updateInvitation = async (id: string, weddingData: WeddingData) => {
-    if (!user) {
-      toast({
-        title: "Error",
-        description: "Debes iniciar sesión para actualizar invitaciones",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    try {
-      // Convert wedding date to ISO string for database storage
-      const weddingDate = weddingData.weddingDate.toISOString();
-
-      const updates = {
-        bride_first_name: weddingData.brideFirstName,
-        bride_last_name: weddingData.brideLastName,
-        groom_first_name: weddingData.groomFirstName,
-        groom_last_name: weddingData.groomLastName,
-        wedding_date: weddingDate,
-        background_image_url: weddingData.backgroundImageUrl,
-        mobile_background_image_url: weddingData.mobileBackgroundImageUrl || null,
-        ceremony_location: weddingData.ceremonyLocation as unknown as Json,
-        reception_location: weddingData.receptionLocation as unknown as Json,
+        mobile_background_image_url: weddingData.mobileBackgroundImageUrl,
+        ceremony_location: ceremonyLocationJson,
+        reception_location: receptionLocationJson,
         gallery_images: weddingData.galleryImages as unknown as Json,
         dress_code: weddingData.dressCode as unknown as Json,
         gifts_info: weddingData.giftsInfo as unknown as Json,
         theme_colors: weddingData.themeColors as unknown as Json,
-        updated_at: new Date().toISOString()
-      };
+      }).select().single();
 
-      const { error } = await supabase
+      if (error) throw new Error(error.message);
+
+      toast({
+        title: 'Invitación creada',
+        description: 'La invitación ha sido creada correctamente.',
+      });
+
+      return data as Invitation;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al crear la invitación';
+      setError(errorMessage);
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateInvitation = async (id: string, weddingData: WeddingData) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Convert Location objects to JSON-compatible format for Supabase
+      const ceremonyLocationJson = JSON.parse(JSON.stringify(weddingData.ceremonyLocation)) as Json;
+      const receptionLocationJson = JSON.parse(JSON.stringify(weddingData.receptionLocation)) as Json;
+
+      const { data, error } = await supabase
         .from('invitations')
-        .update(updates)
+        .update({
+          bride_first_name: weddingData.brideFirstName,
+          bride_last_name: weddingData.brideLastName,
+          groom_first_name: weddingData.groomFirstName,
+          groom_last_name: weddingData.groomLastName,
+          wedding_date: weddingData.weddingDate.toISOString(),
+          background_image_url: weddingData.backgroundImageUrl,
+          mobile_background_image_url: weddingData.mobileBackgroundImageUrl,
+          ceremony_location: ceremonyLocationJson,
+          reception_location: receptionLocationJson,
+          gallery_images: weddingData.galleryImages as unknown as Json,
+          dress_code: weddingData.dressCode as unknown as Json,
+          gifts_info: weddingData.giftsInfo as unknown as Json,
+          theme_colors: weddingData.themeColors as unknown as Json,
+        })
         .eq('id', id)
-        .eq('user_id', user.id);
+        .select()
+        .single();
 
-      if (error) throw error;
-
-      await fetchUserInvitations();
+      if (error) throw new Error(error.message);
 
       toast({
-        title: "Éxito",
-        description: "Invitación actualizada correctamente",
+        title: 'Invitación actualizada',
+        description: 'La invitación ha sido actualizada correctamente.',
       });
 
-      return true;
-
-    } catch (error: any) {
-      console.error('Error updating invitation:', error.message);
+      return data as Invitation;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al actualizar la invitación';
+      setError(errorMessage);
       toast({
-        title: "Error",
-        description: "No se pudo actualizar la invitación",
-        variant: "destructive"
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
       });
-      return false;
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteInvitation = async (id: string) => {
-    if (!user) return false;
-
     try {
+      setLoading(true);
+      setError(null);
+
       const { error } = await supabase
         .from('invitations')
         .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
+        .eq('id', id);
 
-      if (error) throw error;
-
-      setInvitations(invitations.filter(inv => inv.id !== id));
+      if (error) throw new Error(error.message);
 
       toast({
-        title: "Éxito",
-        description: "Invitación eliminada correctamente",
+        title: 'Invitación eliminada',
+        description: 'La invitación ha sido eliminada correctamente.',
       });
 
       return true;
-
-    } catch (error: any) {
-      console.error('Error deleting invitation:', error.message);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido al eliminar la invitación';
+      setError(errorMessage);
       toast({
-        title: "Error",
-        description: "No se pudo eliminar la invitación",
-        variant: "destructive"
+        title: 'Error',
+        description: errorMessage,
+        variant: 'destructive',
       });
       return false;
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
-    invitations,
     loading,
-    saveInvitation,
-    updateInvitation,
-    deleteInvitation,
+    error,
+    getUserInvitations,
+    getInvitationById,
     getInvitationByPublicId,
-    fetchUserInvitations
+    createInvitation,
+    updateInvitation,
+    deleteInvitation
   };
 };
