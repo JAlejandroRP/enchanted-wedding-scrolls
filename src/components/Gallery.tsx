@@ -1,15 +1,28 @@
-
 import { useEffect, useState } from 'react';
 import { Image, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useWeddingData } from '@/hooks/useWeddingData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const Gallery = () => {
-  const { weddingData } = useWeddingData();
+interface GalleryProps {
+  images?: string[];
+}
+
+const Gallery = ({ images }: GalleryProps) => {
   const { primary, secondary } = useThemeColors();
-  const { galleryImages } = weddingData;
   const isMobile = useIsMobile();
+  
+  // Array estático de imágenes de ejemplo (usado cuando no se proporcionan imágenes)
+  const defaultImages = [
+    '/images/gallery/1.jpg',
+    '/images/gallery/2.jpg',
+    '/images/gallery/3.jpg',
+    '/images/gallery/4.jpg',
+    '/images/gallery/5.jpg',
+    '/images/gallery/6.jpg'
+  ];
+
+  // Usar las imágenes proporcionadas o las imágenes por defecto
+  const galleryImages = images || defaultImages;
   
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);

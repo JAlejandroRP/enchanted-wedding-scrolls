@@ -209,7 +209,7 @@ const Dashboard = () => {
           </AlertDialogHeader>
           <div className="flex items-center gap-2 my-4">
             <Input value={shareUrl} readOnly className="flex-1" />
-            <Button onClick={copyToClipboard} className="bg-[#3E000C]">Copiar</Button>
+            <Button onClick={copyToClipboard} className="hover:bg-primary/50">Copiar</Button>
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel>Cerrar</AlertDialogCancel>

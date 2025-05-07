@@ -62,7 +62,7 @@ const InvitationContent = () => {
           reception={weddingData.receptionLocation}
         />
         
-        <Gallery />
+        <Gallery images={weddingData.galleryImages} />
         
         <Gifts />
         

@@ -8,11 +8,8 @@ import Tips from "../components/Tips";
 import Footer from "../components/Footer";
 import DressCode from "../components/DressCode";
 import { useMultipleIntersectionObserver } from "../hooks/useIntersectionObserver";
-import { useWeddingData } from "../hooks/useWeddingData";
 
 const Index = () => {
-  const { weddingData } = useWeddingData();
-
   // Hook para animar elementos cuando aparecen en viewport
   useMultipleIntersectionObserver();
   
@@ -45,9 +42,21 @@ const Index = () => {
       <Hero />
       
       <EventDetails 
-        weddingDate={weddingData.weddingDate}
-        ceremony={weddingData.ceremonyLocation}
-        reception={weddingData.receptionLocation}
+        weddingDate={new Date('2024-12-31')}
+        ceremony={{
+          name: "Iglesia Principal",
+          address: "Calle Principal 123",
+          time: "15:00",
+          mapUrl: "https://maps.google.com",
+          imageUrl: "/images/ceremony.jpg"
+        }}
+        reception={{
+          name: "Salón de Eventos",
+          address: "Avenida Central 456",
+          time: "19:00",
+          mapUrl: "https://maps.google.com",
+          imageUrl: "/images/reception.jpg"
+        }}
       />
       
       <Gallery />
