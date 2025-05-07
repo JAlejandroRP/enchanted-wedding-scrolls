@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 
 interface TimeLeft {
@@ -27,6 +26,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
     minutes: false,
     seconds: false
   });
+  const prevTimeLeftRef = useRef<TimeLeft>(timeLeft);
 
   // Reset animation state after it completes
   useEffect(() => {
@@ -57,12 +57,13 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
 
         // Trigger animation for changed values
         setAnimate({
-          days: newTimeLeft.days !== timeLeft.days,
-          hours: newTimeLeft.hours !== timeLeft.hours,
-          minutes: newTimeLeft.minutes !== timeLeft.minutes,
-          seconds: newTimeLeft.seconds !== timeLeft.seconds
+          days: newTimeLeft.days !== prevTimeLeftRef.current.days,
+          hours: newTimeLeft.hours !== prevTimeLeftRef.current.hours,
+          minutes: newTimeLeft.minutes !== prevTimeLeftRef.current.minutes,
+          seconds: newTimeLeft.seconds !== prevTimeLeftRef.current.seconds
         });
 
+        prevTimeLeftRef.current = newTimeLeft;
         setTimeLeft(newTimeLeft);
         setIsWeddingDay(false);
       } else {
@@ -81,7 +82,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
     calculateTimeLeft();
 
     return () => clearInterval(timer);
-  }, [weddingDate, timeLeft]);
+  }, [weddingDate]);
 
   if (isWeddingDay) {
     return (
@@ -102,7 +103,7 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
   const numberStyle = (isAnimating: boolean) => `
     text-3xl md:text-5xl font-playfair text-white
     transition-all duration-500 ease-in-out
-    ${isAnimating ? 'animate-pulse scale-150 text-yellow-300 drop-shadow-[0_0_15px_rgba(255,255,0,0.5)]' : 'scale-100'}
+    ${isAnimating ? 'animate-pulse scale-150 text-yellow-50 drop-shadow-[0_0_15px_rgba(255,255,0,0.5)]' : 'scale-100'}
   `;
 
   return (
