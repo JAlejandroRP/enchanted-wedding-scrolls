@@ -1,10 +1,12 @@
 import { useWeddingData } from '@/hooks/useWeddingData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import Countdown from './Countdown';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const { weddingData } = useWeddingData();
   const { background } = useThemeColors();
+  const [scrollY, setScrollY] = useState(0);
   const { 
     brideFirstName,
     brideLastName,
@@ -15,30 +17,50 @@ const Hero = () => {
     mobileBackgroundImageUrl
   } = weddingData;
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <section 
       id="inicio" 
-      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4`}
+      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4 overflow-hidden`}
     >
-      {/* Mobile background */}
+      {/* Mobile background with parallax */}
       <div 
         className="md:hidden absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`
+          backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`,
+          transform: `translateY(${scrollY * 0.5}px)`,
+          transition: 'transform 0.1s ease-out'
         }}
       ></div>
       
-      {/* Desktop background */}
+      {/* Desktop background with parallax */}
       <div 
         className="hidden md:block absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('${backgroundImageUrl}')`
+          backgroundImage: `url('${backgroundImageUrl}')`,
+          transform: `translateY(${scrollY * 0.5}px)`,
+          transition: 'transform 0.1s ease-out'
         }}
       ></div>
       
       <div className="absolute inset-0 bg-black/20"></div>
       
-      <div className="container mx-auto text-center relative z-10">
+      {/* Content with reverse parallax */}
+      <div 
+        className="container mx-auto text-center relative z-10"
+        style={{
+          transform: `translateY(${scrollY * -0.2}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}
+      >
         <div className="mb-2 text-sm md:text-base text-white font-light animate-fade-in">
           TE INVITAMOS A NUESTRA BODA
         </div>
@@ -60,7 +82,13 @@ const Hero = () => {
         </div>
       </div>
       
-      <div className="absolute bottom-10 left-0 right-0 text-center">
+      <div 
+        className="absolute bottom-10 left-0 right-0 text-center"
+        style={{
+          transform: `translateY(${scrollY * -0.1}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}
+      >
         <button 
           onClick={() => document.getElementById('evento')?.scrollIntoView({behavior: 'smooth'})}
           className="animate-bounce inline-block"
