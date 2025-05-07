@@ -18,26 +18,33 @@ const Hero = () => {
   } = weddingData;
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <section 
       id="inicio" 
-      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4 overflow-hidden`}
+      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4 overflow-hidden pb-[env(safe-area-inset-bottom)]`}
     >
       {/* Mobile background with parallax */}
       <div 
         className="md:hidden absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`,
-          transform: `translateY(${scrollY * 0.5}px)`,
-          transition: 'transform 0.1s ease-out'
+          transform: `translateY(${scrollY * 0.3}px)`,
+          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       ></div>
       
@@ -46,8 +53,8 @@ const Hero = () => {
         className="hidden md:block absolute inset-0 bg-cover bg-center"
         style={{
           backgroundImage: `url('${backgroundImageUrl}')`,
-          transform: `translateY(${scrollY * 0.5}px)`,
-          transition: 'transform 0.1s ease-out'
+          transform: `translateY(${scrollY * 0.3}px)`,
+          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       ></div>
       
@@ -57,8 +64,8 @@ const Hero = () => {
       <div 
         className="container mx-auto text-center relative z-10"
         style={{
-          transform: `translateY(${scrollY * -0.2}px)`,
-          transition: 'transform 0.1s ease-out'
+          transform: `translateY(${scrollY * -0.1}px)`,
+          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div className="mb-2 text-sm md:text-base text-white font-light animate-fade-in">
@@ -83,10 +90,10 @@ const Hero = () => {
       </div>
       
       <div 
-        className="absolute bottom-10 left-0 right-0 text-center"
+        className="absolute bottom-[calc(2.5rem+env(safe-area-inset-bottom))] left-0 right-0 text-center"
         style={{
-          transform: `translateY(${scrollY * -0.1}px)`,
-          transition: 'transform 0.1s ease-out'
+          transform: `translateY(${scrollY * -0.05}px)`,
+          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <button 

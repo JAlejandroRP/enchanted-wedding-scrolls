@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,7 +8,6 @@ import EventDetails from "@/components/EventDetails";
 import Gallery from "@/components/Gallery";
 import Gifts from "@/components/Gifts";
 import Tips from "@/components/Tips";
-import PhotoShare from "@/components/PhotoShare";
 import Footer from "@/components/Footer";
 import { useMultipleIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
@@ -69,8 +67,6 @@ const InvitationContent = () => {
         <Gifts />
         
         <Tips />
-        
-        <PhotoShare />
         
         <Footer />
       </div>
