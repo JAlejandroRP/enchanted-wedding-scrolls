@@ -30,7 +30,7 @@ const Tips = () => {
       <h2 className="section-title reveal">Recomendaciones</h2>
       
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg p-6 shadow-md mb-6 reveal">
+        <div className="p-6 mb-6 reveal">
           <h3 className="font-playfair text-xl mb-4">Consejos para nuestros invitados</h3>
           
           <div className="space-y-5">

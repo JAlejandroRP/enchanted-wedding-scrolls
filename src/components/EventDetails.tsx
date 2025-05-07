@@ -1,4 +1,3 @@
-
 import { MapPin, Clock, Calendar, Heart } from 'lucide-react';
 import { useEffect } from 'react';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -118,42 +117,6 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
             <div className="flex items-center mb-4">
               <Clock className={`mr-2 text-[${secondary}]`} size={18} />
               <p className={`text-[${primary}]`}>{reception.time}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className={`mt-16 bg-[${secondary}]/20 p-6 md:p-8 rounded-lg reveal`}>
-          <h3 className={`font-playfair text-xl md:text-2xl mb-4 text-center text-[${primary}]`}>
-            Código de Vestimenta
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h4 className={`font-medium mb-2 text-[${primary}] flex items-center`}>
-                <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2v6a6 6 0 0 0 12 0V2"></path>
-                  <path d="M12 2v22"></path>
-                </svg>
-                Vestimenta Formal
-              </h4>
-              <ul className={`list-disc pl-5 space-y-1 text-[${primary}]/90`}>
-                <li>Hombres: Traje formal o smoking</li>
-                <li>Mujeres: Vestido de cóctel o largo</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className={`font-medium mb-2 text-[${primary}] flex items-center`}>
-                <svg className="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                  <path d="M16 17h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4"></path>
-                  <path d="M9 7h6v14H9z"></path>
-                </svg>
-                Colores a evitar
-              </h4>
-              <ul className={`list-disc pl-5 space-y-1 text-[${primary}]/90`}>
-                <li>Blanco (reservado para la novia)</li>
-                <li>Negro completo</li>
-                <li>Rojo intenso</li>
-              </ul>
             </div>
           </div>
         </div>

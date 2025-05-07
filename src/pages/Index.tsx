@@ -6,6 +6,7 @@ import Gallery from "../components/Gallery";
 import Gifts from "../components/Gifts";
 import Tips from "../components/Tips";
 import Footer from "../components/Footer";
+import DressCode from "../components/DressCode";
 import { useMultipleIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { useWeddingData } from "../hooks/useWeddingData";
 
@@ -50,6 +51,8 @@ const Index = () => {
       />
       
       <Gallery />
+      
+      <DressCode />
       
       <Gifts />
       
