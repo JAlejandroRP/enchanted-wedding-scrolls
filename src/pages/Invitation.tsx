@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,6 +10,7 @@ import Gallery from "@/components/Gallery";
 import Gifts from "@/components/Gifts";
 import Tips from "@/components/Tips";
 import Footer from "@/components/Footer";
+import { GuestView } from "@/components/GuestView";
 import { useMultipleIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 const InvitationContent = () => {
@@ -65,6 +67,8 @@ const InvitationContent = () => {
         <Gallery images={weddingData.galleryImages} />
         
         <Gifts />
+
+        <GuestView invitationId={publicId} />
         
         <Tips />
         

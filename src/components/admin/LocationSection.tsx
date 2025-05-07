@@ -1,9 +1,10 @@
 
-import { Map } from 'lucide-react';
+import { Map, MapPin } from 'lucide-react';
 import { FormData } from '@/types/wedding';
-
+import { FileUpload } from '@/components/FileUpload';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 interface LocationSectionProps {
   formData: FormData;
@@ -55,19 +56,49 @@ export const LocationSection = ({
           </div>
 
           <div>
-            <Label htmlFor="ceremonyImageUrl">URL de la Imagen</Label>
+            <Label htmlFor="ceremonyMapUrl">URL de Google Maps</Label>
             <Input 
-              id="ceremonyImageUrl" 
-              value={formData.ceremonyLocation.imageUrl || ''} 
-              onChange={(e) => onInputChange(e, 'ceremonyLocation', 'imageUrl')}
+              id="ceremonyMapUrl" 
+              value={formData.ceremonyLocation.mapUrl || ''} 
+              onChange={(e) => onInputChange(e, 'ceremonyLocation', 'mapUrl')}
+              placeholder="https://maps.google.com/?q=..."
             />
-            {formData.ceremonyLocation.imageUrl && (
-              <div className="mt-2 h-32 rounded-md overflow-hidden">
+          </div>
+
+          <div className="space-y-2">
+            <Label>Imagen del Lugar</Label>
+            {!formData.ceremonyLocation.imageUrl ? (
+              <FileUpload
+                onUploadComplete={(url) => {
+                  const syntheticEvent = {
+                    target: { value: url },
+                    currentTarget: { value: url }
+                  } as unknown as React.ChangeEvent<HTMLInputElement>;
+                  onInputChange(syntheticEvent, 'ceremonyLocation', 'imageUrl');
+                }}
+                buttonText="Subir imagen del lugar de ceremonia"
+              />
+            ) : (
+              <div className="mt-2 h-48 rounded-md overflow-hidden">
                 <img 
                   src={formData.ceremonyLocation.imageUrl} 
                   alt="Ceremonia" 
                   className="w-full h-full object-cover"
                 />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const syntheticEvent = {
+                      target: { value: "" },
+                      currentTarget: { value: "" }
+                    } as unknown as React.ChangeEvent<HTMLInputElement>;
+                    onInputChange(syntheticEvent, 'ceremonyLocation', 'imageUrl');
+                  }}
+                  className="mt-2"
+                >
+                  Cambiar imagen
+                </Button>
               </div>
             )}
           </div>
@@ -111,19 +142,49 @@ export const LocationSection = ({
           </div>
 
           <div>
-            <Label htmlFor="receptionImageUrl">URL de la Imagen</Label>
+            <Label htmlFor="receptionMapUrl">URL de Google Maps</Label>
             <Input 
-              id="receptionImageUrl" 
-              value={formData.receptionLocation.imageUrl || ''} 
-              onChange={(e) => onInputChange(e, 'receptionLocation', 'imageUrl')}
+              id="receptionMapUrl" 
+              value={formData.receptionLocation.mapUrl || ''} 
+              onChange={(e) => onInputChange(e, 'receptionLocation', 'mapUrl')}
+              placeholder="https://maps.google.com/?q=..."
             />
-            {formData.receptionLocation.imageUrl && (
-              <div className="mt-2 h-32 rounded-md overflow-hidden">
+          </div>
+
+          <div className="space-y-2">
+            <Label>Imagen del Lugar</Label>
+            {!formData.receptionLocation.imageUrl ? (
+              <FileUpload
+                onUploadComplete={(url) => {
+                  const syntheticEvent = {
+                    target: { value: url },
+                    currentTarget: { value: url }
+                  } as unknown as React.ChangeEvent<HTMLInputElement>;
+                  onInputChange(syntheticEvent, 'receptionLocation', 'imageUrl');
+                }}
+                buttonText="Subir imagen del lugar de recepción"
+              />
+            ) : (
+              <div className="mt-2 h-48 rounded-md overflow-hidden">
                 <img 
                   src={formData.receptionLocation.imageUrl} 
                   alt="Recepción" 
                   className="w-full h-full object-cover"
                 />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const syntheticEvent = {
+                      target: { value: "" },
+                      currentTarget: { value: "" }
+                    } as unknown as React.ChangeEvent<HTMLInputElement>;
+                    onInputChange(syntheticEvent, 'receptionLocation', 'imageUrl');
+                  }}
+                  className="mt-2"
+                >
+                  Cambiar imagen
+                </Button>
               </div>
             )}
           </div>
@@ -132,3 +193,4 @@ export const LocationSection = ({
     </div>
   );
 };
+

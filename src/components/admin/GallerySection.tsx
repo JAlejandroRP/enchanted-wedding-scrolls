@@ -1,8 +1,8 @@
+
 import { Image } from 'lucide-react';
 import { FormData } from '@/types/wedding';
-
+import { FileUpload } from '@/components/FileUpload';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 interface GallerySectionProps {
   formData: FormData;
@@ -36,34 +36,38 @@ export const GallerySection = ({
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-6">
         {formData.galleryImages.map((image, index) => (
-          <div key={index} className="flex gap-2">
-            <Input 
-              value={image} 
-              onChange={(e) => onGalleryImageChange(index, e.target.value)}
-              placeholder="URL de la imagen"
-              className="flex-1"
-            />
-            <Button 
-              variant="destructive" 
-              size="icon" 
-              onClick={() => onRemoveGalleryImage(index)}
-            >
-              X
-            </Button>
-            {image && (
-              <div className="w-16 h-16 rounded overflow-hidden flex-shrink-0">
-                <img 
-                  src={image} 
-                  alt={`Imagen ${index + 1}`} 
-                  className="w-full h-full object-cover"
+          <div key={index} className="flex gap-4 items-start">
+            <div className="flex-1">
+              {!image ? (
+                <FileUpload
+                  onUploadComplete={(url) => onGalleryImageChange(index, url)}
+                  buttonText="Subir imagen para galería"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="flex items-center gap-2">
+                  <div className="w-16 h-16 rounded overflow-hidden flex-shrink-0">
+                    <img 
+                      src={image} 
+                      alt={`Imagen ${index + 1}`} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-sm truncate flex-1">{image}</p>
+                  <Button 
+                    variant="destructive" 
+                    size="icon" 
+                    onClick={() => onRemoveGalleryImage(index)}
+                  >
+                    X
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
-}; 
+};

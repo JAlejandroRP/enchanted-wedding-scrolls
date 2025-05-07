@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { Calendar, Save, Image, RefreshCw, Map, Gift, Palette, ArrowLeft } from 'lucide-react';
+import { Calendar, Save, Image, RefreshCw, Map, Gift, Palette, ArrowLeft, User } from 'lucide-react';
 import { useWeddingData } from '@/hooks/useWeddingData';
 import { useWeddingForm } from '@/hooks/useWeddingForm';
 import { useInvitations } from '@/hooks/useInvitations';
@@ -42,6 +42,7 @@ import { LocationSection } from '@/components/admin/LocationSection';
 import { GallerySection } from '@/components/admin/GallerySection';
 import { DressCodeSection } from '@/components/admin/DressCodeSection';
 import { GiftsSection } from '@/components/admin/GiftsSection';
+import { GuestSection } from '@/components/admin/GuestSection';
 import { useAuth } from '@/hooks/useAuth';
 
 interface ThemePreset {
@@ -305,12 +306,13 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="info">
-          <TabsList className="grid grid-cols-5 w-full mb-8">
+          <TabsList className="grid grid-cols-6 w-full mb-8">
             <TabsTrigger value="info">Información</TabsTrigger>
             <TabsTrigger value="locations">Ubicaciones</TabsTrigger>
             <TabsTrigger value="gallery">Galería</TabsTrigger>
             <TabsTrigger value="dresscode">Vestimenta</TabsTrigger>
             <TabsTrigger value="gifts">Regalos</TabsTrigger>
+            <TabsTrigger value="guests">Invitados</TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-8">
@@ -365,6 +367,32 @@ const Admin = () => {
               onAddWishlistItem={handleAddWishlistItem}
               onRemoveWishlistItem={handleRemoveWishlistItem}
             />
+          </TabsContent>
+
+          <TabsContent value="guests">
+            {currentInvitationId ? (
+              <GuestSection
+                invitationId={currentInvitationId}
+                formData={formData}
+              />
+            ) : (
+              <div className="bg-white rounded-lg p-6 shadow-sm text-center">
+                <User className="mx-auto h-12 w-12 mb-4" style={{ color: formData.themeColors.primary }} />
+                <h2 className="text-xl font-medium mb-2" style={{ color: formData.themeColors.primary }}>
+                  Debe guardar la invitación primero
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Para agregar invitados, primero debe guardar la invitación.
+                </p>
+                <Button 
+                  onClick={handleSave}
+                  style={{ backgroundColor: formData.themeColors.secondary, color: formData.themeColors.primary }}
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  Guardar Invitación
+                </Button>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
 

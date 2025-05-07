@@ -1,7 +1,9 @@
-import { MapPin, Clock, Calendar, Heart } from 'lucide-react';
+
+import { MapPin, Clock, Calendar, Heart, ExternalLink } from 'lucide-react';
 import { useEffect } from 'react';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from './ui/button';
 
 interface Location {
   name: string;
@@ -91,6 +93,18 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
               <Clock className={`mr-2 text-[${secondary}]`} size={18} />
               <p className={`text-[${primary}]`}>{ceremony.time}</p>
             </div>
+
+            {ceremony.mapUrl && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => window.open(ceremony.mapUrl, '_blank', 'noopener,noreferrer')}
+                className={`border-[${secondary}] text-[${primary}]`}
+              >
+                <ExternalLink size={16} className="mr-2" />
+                Ver en Google Maps
+              </Button>
+            )}
           </div>
           
           <div className={`reveal space-y-4 ${isMobile ? 'p-6 rounded-lg bg-white/50 shadow-sm' : ''}`}>
@@ -118,6 +132,18 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
               <Clock className={`mr-2 text-[${secondary}]`} size={18} />
               <p className={`text-[${primary}]`}>{reception.time}</p>
             </div>
+
+            {reception.mapUrl && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => window.open(reception.mapUrl, '_blank', 'noopener,noreferrer')}
+                className={`border-[${secondary}] text-[${primary}]`}
+              >
+                <ExternalLink size={16} className="mr-2" />
+                Ver en Google Maps
+              </Button>
+            )}
           </div>
         </div>
       </div>
