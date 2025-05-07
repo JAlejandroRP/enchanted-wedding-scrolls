@@ -1,9 +1,9 @@
+
 import { Map } from 'lucide-react';
 import { FormData } from '@/types/wedding';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 
 interface LocationSectionProps {
   formData: FormData;
@@ -55,15 +55,6 @@ export const LocationSection = ({
           </div>
 
           <div>
-            <Label htmlFor="ceremonyMapUrl">URL del Mapa</Label>
-            <Input 
-              id="ceremonyMapUrl" 
-              value={formData.ceremonyLocation.mapUrl} 
-              onChange={(e) => onInputChange(e, 'ceremonyLocation', 'mapUrl')}
-            />
-          </div>
-
-          <div>
             <Label htmlFor="ceremonyImageUrl">URL de la Imagen</Label>
             <Input 
               id="ceremonyImageUrl" 
@@ -79,16 +70,6 @@ export const LocationSection = ({
                 />
               </div>
             )}
-          </div>
-
-          <div>
-            <Label htmlFor="ceremonyMapIframe">Iframe del Mapa (código HTML)</Label>
-            <Textarea 
-              id="ceremonyMapIframe" 
-              value={formData.ceremonyLocation.mapIframe || ''} 
-              onChange={(e) => onTextareaChange(e, 'ceremonyLocation')}
-              className="min-h-[100px]"
-            />
           </div>
         </div>
       </div>
@@ -130,15 +111,6 @@ export const LocationSection = ({
           </div>
 
           <div>
-            <Label htmlFor="receptionMapUrl">URL del Mapa</Label>
-            <Input 
-              id="receptionMapUrl" 
-              value={formData.receptionLocation.mapUrl} 
-              onChange={(e) => onInputChange(e, 'receptionLocation', 'mapUrl')}
-            />
-          </div>
-
-          <div>
             <Label htmlFor="receptionImageUrl">URL de la Imagen</Label>
             <Input 
               id="receptionImageUrl" 
@@ -155,18 +127,8 @@ export const LocationSection = ({
               </div>
             )}
           </div>
-
-          <div>
-            <Label htmlFor="receptionMapIframe">Iframe del Mapa (código HTML)</Label>
-            <Textarea 
-              id="receptionMapIframe" 
-              value={formData.receptionLocation.mapIframe || ''} 
-              onChange={(e) => onTextareaChange(e, 'receptionLocation')}
-              className="min-h-[100px]"
-            />
-          </div>
         </div>
       </div>
     </div>
   );
-}; 
+};

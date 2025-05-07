@@ -1,8 +1,9 @@
+
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import { WeddingData, Location } from '@/types/wedding';
+import { WeddingData } from '@/types/wedding';
 import { Json } from '@/integrations/supabase/types';
 
 export interface Invitation {
@@ -28,6 +29,7 @@ export interface Invitation {
 export const useInvitations = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [invitations, setInvitations] = useState<Invitation[]>([]);
 
   const getUserInvitations = async () => {
     try {
@@ -40,7 +42,9 @@ export const useInvitations = () => {
 
       if (error) throw new Error(error.message);
 
-      return data as Invitation[];
+      const invitationData = data as Invitation[];
+      setInvitations(invitationData);
+      return invitationData;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido al obtener las invitaciones';
       setError(errorMessage);
@@ -149,6 +153,8 @@ export const useInvitations = () => {
         description: 'La invitación ha sido creada correctamente.',
       });
 
+      await getUserInvitations(); // Refresh invitations list
+      
       return data as Invitation;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido al crear la invitación';
@@ -201,6 +207,7 @@ export const useInvitations = () => {
         description: 'La invitación ha sido actualizada correctamente.',
       });
 
+      await getUserInvitations(); // Refresh invitations list
       return data as Invitation;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido al actualizar la invitación';
@@ -232,7 +239,8 @@ export const useInvitations = () => {
         title: 'Invitación eliminada',
         description: 'La invitación ha sido eliminada correctamente.',
       });
-
+      
+      await getUserInvitations(); // Refresh invitations list
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido al eliminar la invitación';
@@ -247,14 +255,19 @@ export const useInvitations = () => {
       setLoading(false);
     }
   };
+  
+  // Alias for createInvitation to maintain API compatibility
+  const saveInvitation = createInvitation;
 
   return {
     loading,
     error,
+    invitations,
     getUserInvitations,
     getInvitationById,
     getInvitationByPublicId,
     createInvitation,
+    saveInvitation,
     updateInvitation,
     deleteInvitation
   };

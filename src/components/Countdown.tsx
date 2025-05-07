@@ -1,4 +1,6 @@
+
 import { useState, useEffect } from 'react';
+import { Calendar, Clock } from 'lucide-react';
 
 interface TimeLeft {
   days: number;
@@ -84,9 +86,12 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
   if (isWeddingDay) {
     return (
       <div className="w-full max-w-lg mx-auto text-center">
-        <h3 className="font-playfair font-bold text-3xl md:text-4xl mb-2 text-white">
-          ¡Hoy es el gran día!
-        </h3>
+        <div className="inline-flex items-center mb-2">
+          <Calendar className="mr-2" size={28} stroke="white" />
+          <h3 className="font-playfair font-bold text-3xl md:text-4xl text-white">
+            ¡Hoy es el gran día!
+          </h3>
+        </div>
         <p className="text-white/90 text-lg">
           Gracias por ser parte de nuestra celebración
         </p>
@@ -102,7 +107,10 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      <h3 className="text-center font-playfair font-medium text-3xl mb-4 text-white">Faltan</h3>
+      <div className="flex items-center justify-center mb-4">
+        <Clock className="mr-2" size={24} stroke="white" />
+        <h3 className="text-center font-playfair font-medium text-3xl text-white">Faltan</h3>
+      </div>
       <div className="flex justify-center space-x-8">
         <div className="text-center">
           <div className={numberStyle(animate.days)}>
