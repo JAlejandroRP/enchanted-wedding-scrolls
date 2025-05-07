@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useInvitations } from '@/hooks/useInvitations';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { CalendarIcon, PlusCircleIcon, Share2Icon, Pencil, Trash2 } from 'lucide-react';
+import { CalendarIcon, PlusCircleIcon, Share2Icon, Pencil, Trash2, LogOut } from 'lucide-react';
 import { 
   AlertDialog,
   AlertDialogAction,
@@ -20,10 +20,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Input } from '@/components/ui/input';
+import { toast } from '@/hooks/use-toast';
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
-  const { invitations, loading, deleteInvitation } = useInvitations();
+  const { invitations, loading, getUserInvitations, deleteInvitation } = useInvitations();
   const { resetWeddingData } = useWeddingData();
   const navigate = useNavigate();
   
@@ -31,6 +32,11 @@ const Dashboard = () => {
   const [invitationToDelete, setInvitationToDelete] = useState<string | null>(null);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
+
+  // Fetch invitations when component mounts
+  useEffect(() => {
+    getUserInvitations();
+  }, []);
 
   const handleEditInvitation = (publicId: string) => {
     navigate(`/admin?id=${publicId}`);
@@ -62,6 +68,24 @@ const Dashboard = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareUrl);
+    toast({
+      title: "Enlace copiado",
+      description: "El enlace ha sido copiado al portapapeles.",
+    });
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast({
+        title: 'Error',
+        description: 'No se pudo cerrar sesión.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -73,10 +97,10 @@ const Dashboard = () => {
             <span>Hola, {user?.user_metadata?.full_name || 'Usuario'}</span>
             <Button 
               variant="outline" 
-              className="bg-transparent hover:bg-white/10 text-white border-white"
-              onClick={() => signOut().then(() => navigate('/'))}
+              className="bg-transparent hover:bg-white/10 text-white border-white flex items-center"
+              onClick={handleLogout}
             >
-              Cerrar Sesión
+              <LogOut className="h-4 w-4 mr-2" /> Cerrar Sesión
             </Button>
           </div>
         </div>
