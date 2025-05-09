@@ -1,10 +1,10 @@
-
 import { Map, MapPin } from 'lucide-react';
 import { FormData } from '@/types/wedding';
 import { FileUpload } from '@/components/FileUpload';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 interface LocationSectionProps {
   formData: FormData;
@@ -193,4 +193,3 @@ export const LocationSection = ({
     </div>
   );
 };
-

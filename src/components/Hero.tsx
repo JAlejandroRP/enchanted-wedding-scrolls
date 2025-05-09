@@ -1,3 +1,4 @@
+
 import { useWeddingData } from '@/hooks/useWeddingData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import Countdown from './Countdown';
@@ -16,6 +17,10 @@ const Hero = () => {
     backgroundImageUrl,
     mobileBackgroundImageUrl
   } = weddingData;
+  const [isLoaded, setIsLoaded] = useState({
+    desktop: false,
+    mobile: false
+  });
 
   useEffect(() => {
     let ticking = false;
@@ -33,30 +38,53 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Precargar imágenes
+  useEffect(() => {
+    if (backgroundImageUrl) {
+      const img = new Image();
+      img.onload = () => setIsLoaded(prev => ({ ...prev, desktop: true }));
+      img.src = backgroundImageUrl;
+    }
+    
+    if (mobileBackgroundImageUrl) {
+      const img = new Image();
+      img.onload = () => setIsLoaded(prev => ({ ...prev, mobile: true }));
+      img.src = mobileBackgroundImageUrl;
+    }
+  }, [backgroundImageUrl, mobileBackgroundImageUrl]);
+
   return (
     <section 
       id="inicio" 
       className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4 overflow-hidden pb-[env(safe-area-inset-bottom)]`}
     >
       {/* Mobile background with parallax */}
-      <div 
-        className="md:hidden absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`,
-          transform: `translateY(${scrollY * 0.3}px)`,
-          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
-      ></div>
+      {(mobileBackgroundImageUrl || backgroundImageUrl) && (
+        <div 
+          className="md:hidden absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('${mobileBackgroundImageUrl || backgroundImageUrl}')`,
+            transform: `translateY(${scrollY * 0.3}px)`,
+            transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            opacity: isLoaded.mobile ? 1 : 0,
+            filter: isLoaded.mobile ? 'none' : 'blur(8px)'
+          }}
+        ></div>
+      )}
       
       {/* Desktop background with parallax */}
-      <div 
-        className="hidden md:block absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${backgroundImageUrl}')`,
-          transform: `translateY(${scrollY * 0.3}px)`,
-          transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
-      ></div>
+      {backgroundImageUrl && (
+        <div 
+          className="hidden md:block absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('${backgroundImageUrl}')`,
+            transform: `translateY(${scrollY * 0.3}px)`,
+            transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s ease, filter 1s ease',
+            opacity: isLoaded.desktop ? 1 : 0,
+            filter: isLoaded.desktop ? 'none' : 'blur(8px)'
+          }}
+        ></div>
+      )}
       
       <div className="absolute inset-0 bg-black/20"></div>
       
