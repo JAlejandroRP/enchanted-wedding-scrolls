@@ -1,3 +1,4 @@
+
 import { Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -13,6 +14,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
+import { FileUpload } from '@/components/FileUpload';
 
 interface InfoSectionProps {
   formData: FormData;
@@ -29,6 +31,16 @@ export const InfoSection = ({
   dateOpen,
   setDateOpen
 }: InfoSectionProps) => {
+  const handleImageUpload = (url: string, field: keyof FormData) => {
+    const syntheticEvent = {
+      target: { 
+        value: url 
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    
+    onInputChange(syntheticEvent, field);
+  };
+  
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm">
       <h2 className="text-xl font-medium mb-4" style={{ color: formData.themeColors.primary }}>
@@ -106,39 +118,29 @@ export const InfoSection = ({
         </div>
 
         <div>
-          <Label htmlFor="backgroundImageUrl">Imagen de Fondo (URL)</Label>
-          <Input 
-            id="backgroundImageUrl" 
-            value={formData.backgroundImageUrl} 
-            onChange={(e) => onInputChange(e, 'backgroundImageUrl')}
-          />
-          {formData.backgroundImageUrl && (
-            <div className="mt-2 h-32 rounded-md overflow-hidden">
-              <img 
-                src={formData.backgroundImageUrl} 
-                alt="Fondo" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
+          <Label>Imagen de Fondo</Label>
+          <FileUpload 
+            onUploadComplete={(url) => handleImageUpload(url, 'backgroundImageUrl')}
+            buttonText="Subir imagen de fondo"
+            currentValue={formData.backgroundImageUrl}
+          >
+            <p className="text-sm text-gray-500">
+              Imagen principal para la invitación (recomendado: 1920x1080px)
+            </p>
+          </FileUpload>
         </div>
 
         <div>
-          <Label htmlFor="mobileBackgroundImageUrl">Imagen de Fondo Móvil (URL)</Label>
-          <Input 
-            id="mobileBackgroundImageUrl" 
-            value={formData.mobileBackgroundImageUrl || ''} 
-            onChange={(e) => onInputChange(e, 'mobileBackgroundImageUrl')}
-          />
-          {formData.mobileBackgroundImageUrl && (
-            <div className="mt-2 h-32 rounded-md overflow-hidden">
-              <img 
-                src={formData.mobileBackgroundImageUrl} 
-                alt="Fondo Móvil" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
+          <Label>Imagen de Fondo Móvil</Label>
+          <FileUpload 
+            onUploadComplete={(url) => handleImageUpload(url, 'mobileBackgroundImageUrl')}
+            buttonText="Subir imagen para móviles"
+            currentValue={formData.mobileBackgroundImageUrl || ''}
+          >
+            <p className="text-sm text-gray-500">
+              Versión vertical para dispositivos móviles (recomendado: 1080x1920px)
+            </p>
+          </FileUpload>
         </div>
       </div>
     </div>

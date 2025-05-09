@@ -50,8 +50,8 @@ export const PublicInvitationProvider = ({ children }: { children: ReactNode }) 
       };
       
       setWeddingData(data);
-      setLoading(false);
-      // Apply theme colors to CSS variables
+      
+      // Apply theme colors to CSS variables ONLY on invitation pages
       if (data.themeColors) {
         document.documentElement.style.setProperty('--wedding-primary', data.themeColors.primary);
         document.documentElement.style.setProperty('--wedding-secondary', data.themeColors.secondary);
@@ -67,6 +67,17 @@ export const PublicInvitationProvider = ({ children }: { children: ReactNode }) 
       setLoading(false);
     }
   };
+  
+  // Limpia las variables CSS cuando se desmonta el componente
+  useEffect(() => {
+    return () => {
+      // Restaurar valores predeterminados al salir de la invitación
+      document.documentElement.style.removeProperty('--wedding-primary');
+      document.documentElement.style.removeProperty('--wedding-secondary');
+      document.documentElement.style.removeProperty('--wedding-accent');
+      document.documentElement.style.removeProperty('--wedding-background');
+    };
+  }, []);
 
   return (
     <PublicInvitationContext.Provider value={{ weddingData, loading, error, loadInvitation }}>
