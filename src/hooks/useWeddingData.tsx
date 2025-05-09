@@ -132,11 +132,41 @@ export const WeddingDataProvider = ({ children }: { children: ReactNode }) => {
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
-        // Convert string date back to Date object
-        return {
+        // Validate and convert the data
+        const weddingDate = new Date(parsedData.weddingDate);
+        if (isNaN(weddingDate.getTime())) {
+          console.error('Invalid wedding date in localStorage');
+          return defaultWeddingData;
+        }
+        
+        // Ensure all required fields are present
+        const validatedData = {
+          ...defaultWeddingData,
           ...parsedData,
-          weddingDate: new Date(parsedData.weddingDate)
+          weddingDate,
+          ceremonyLocation: {
+            ...defaultWeddingData.ceremonyLocation,
+            ...parsedData.ceremonyLocation
+          },
+          receptionLocation: {
+            ...defaultWeddingData.receptionLocation,
+            ...parsedData.receptionLocation
+          },
+          dressCode: {
+            ...defaultWeddingData.dressCode,
+            ...parsedData.dressCode
+          },
+          giftsInfo: {
+            ...defaultWeddingData.giftsInfo,
+            ...parsedData.giftsInfo
+          },
+          themeColors: {
+            ...defaultWeddingData.themeColors,
+            ...parsedData.themeColors
+          }
         };
+        
+        return validatedData;
       } catch (error) {
         console.error('Error parsing wedding data from localStorage:', error);
         return defaultWeddingData;
@@ -147,7 +177,15 @@ export const WeddingDataProvider = ({ children }: { children: ReactNode }) => {
 
   // Save to localStorage when data changes
   useEffect(() => {
-    localStorage.setItem('weddingData', JSON.stringify(weddingData));
+    try {
+      const dataToSave = {
+        ...weddingData,
+        weddingDate: weddingData.weddingDate.toISOString()
+      };
+      localStorage.setItem('weddingData', JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Error saving wedding data to localStorage:', error);
+    }
   }, [weddingData]);
 
   const updateWeddingData = (data: Partial<WeddingData>) => {
