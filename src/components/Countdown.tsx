@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Calendar, Clock } from 'lucide-react';
 
@@ -44,8 +45,13 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
   }, [animate]);
 
   useEffect(() => {
+    // Asegurar que wedddingDate es un objeto Date válido
+    const targetDate = weddingDate instanceof Date && !isNaN(weddingDate.getTime()) 
+      ? weddingDate 
+      : new Date(); // Fallback a la fecha actual si no es válida
+
     const calculateTimeLeft = () => {
-      const difference = +weddingDate - +new Date();
+      const difference = +targetDate - +new Date();
       
       if (difference > 0) {
         const newTimeLeft = {
@@ -78,8 +84,8 @@ const Countdown = ({ weddingDate }: CountdownProps) => {
       }
     };
 
+    calculateTimeLeft(); // Calcular inmediatamente
     const timer = setInterval(calculateTimeLeft, 1000);
-    calculateTimeLeft();
 
     return () => clearInterval(timer);
   }, [weddingDate]);

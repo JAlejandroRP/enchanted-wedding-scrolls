@@ -10,6 +10,31 @@ export const useStorage = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Función para asegurarse de que existe el bucket
+  const ensureBucketExists = async (): Promise<boolean> => {
+    try {
+      // Verificar si el bucket existe
+      const { data: buckets } = await supabase.storage.listBuckets();
+      
+      // Si el bucket no existe, intentar crearlo
+      if (!buckets?.some(bucket => bucket.name === BUCKET_NAME)) {
+        const { error } = await supabase.storage.createBucket(BUCKET_NAME, {
+          public: true
+        });
+        
+        if (error) {
+          console.error('Error al crear el bucket:', error);
+          return false;
+        }
+      }
+      
+      return true;
+    } catch (err) {
+      console.error('Error al verificar bucket:', err);
+      return false;
+    }
+  };
+
   const uploadImage = async (file: File): Promise<string | null> => {
     if (!file) return null;
     
@@ -17,12 +42,18 @@ export const useStorage = () => {
       setUploading(true);
       setError(null);
       
-      // Create a unique file name to prevent collisions
+      // Asegurarse de que el bucket existe
+      const bucketExists = await ensureBucketExists();
+      if (!bucketExists) {
+        throw new Error('No se pudo verificar el almacenamiento');
+      }
+      
+      // Crear un nombre único para el archivo para prevenir colisiones
       const fileExt = file.name.split('.').pop();
       const fileName = `${uuidv4()}.${fileExt}`;
       const filePath = `${fileName}`;
       
-      // Upload the file to Supabase Storage
+      // Subir el archivo al Storage de Supabase
       const { data, error: uploadError } = await supabase.storage
         .from(BUCKET_NAME)
         .upload(filePath, file);
@@ -31,7 +62,7 @@ export const useStorage = () => {
         throw uploadError;
       }
       
-      // Get the public URL for the uploaded file
+      // Obtener la URL pública del archivo subido
       const { data: { publicUrl } } = supabase.storage
         .from(BUCKET_NAME)
         .getPublicUrl(data.path);

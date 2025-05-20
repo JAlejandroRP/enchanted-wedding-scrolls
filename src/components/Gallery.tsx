@@ -1,15 +1,23 @@
+
 import { useEffect, useState } from 'react';
-import { Image, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Image, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useParams } from 'react-router-dom';
+import { usePublicInvitation } from '@/hooks/usePublicInvitation';
 
 interface GalleryProps {
   images?: string[];
 }
 
-const Gallery = ({ images }: GalleryProps) => {
+const Gallery = ({ images: propImages }: GalleryProps) => {
   const { primary, secondary } = useThemeColors();
   const isMobile = useIsMobile();
+  const params = useParams();
+  const { weddingData } = usePublicInvitation();
+  
+  // Determinar la fuente correcta de imágenes
+  const isPublicPage = !!params.publicId;
   
   // Array estático de imágenes de ejemplo (usado cuando no se proporcionan imágenes)
   const defaultImages = [
@@ -21,14 +29,67 @@ const Gallery = ({ images }: GalleryProps) => {
     '/images/gallery/6.jpg'
   ];
 
-  // Usar las imágenes proporcionadas o las imágenes por defecto
-  const galleryImages = images || defaultImages;
+  // Usar las imágenes proporcionadas, las del contexto público, o las imágenes por defecto
+  const galleryImages = propImages || 
+    (isPublicPage && weddingData?.galleryImages) || 
+    defaultImages;
   
   const [activeImage, setActiveImage] = useState<string | null>(null);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState<{[key: string]: boolean}>({});
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+
+  // Precargar imágenes
+  useEffect(() => {
+    const loadStatus: {[key: string]: boolean} = {};
+    let loadedCount = 0;
+    
+    galleryImages.forEach((imageUrl, index) => {
+      if (!imageUrl) {
+        loadStatus[index] = true;
+        loadedCount++;
+        return;
+      }
+      
+      const img = new Image();
+      img.onload = () => {
+        loadStatus[index] = true;
+        loadedCount++;
+        setImagesLoaded({...loadStatus});
+        if (loadedCount === galleryImages.length) {
+          setAllImagesLoaded(true);
+        }
+      };
+      img.onerror = () => {
+        loadStatus[index] = true; // Marcar como cargada aunque haya error
+        loadedCount++;
+        setImagesLoaded({...loadStatus});
+        console.error(`Error loading gallery image: ${imageUrl}`);
+        if (loadedCount === galleryImages.length) {
+          setAllImagesLoaded(true);
+        }
+      };
+      img.src = imageUrl;
+    });
+    
+    // Si no hay imágenes, marcar como cargadas
+    if (galleryImages.length === 0) {
+      setAllImagesLoaded(true);
+    }
+    
+    return () => {
+      // Limpiar eventos de carga de imagen al desmontar
+      galleryImages.forEach(imageUrl => {
+        const img = new Image();
+        img.onload = null;
+        img.onerror = null;
+      });
+    };
+  }, [galleryImages]);
 
   // Función para animar elementos cuando se hacen visibles
   useEffect(() => {
+    if (!allImagesLoaded) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -46,7 +107,7 @@ const Gallery = ({ images }: GalleryProps) => {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
-  }, []);
+  }, [allImagesLoaded]);
 
   const handlePrevImage = () => {
     if (activeImage) {
@@ -64,15 +125,19 @@ const Gallery = ({ images }: GalleryProps) => {
     }
   };
 
+  if (!galleryImages || galleryImages.length === 0) {
+    return null;
+  }
+
   return (
-    <section id="galeria" className={`section-container bg-[${secondary}]/10`}>
-      <h2 className={`section-title reveal text-[${primary}]`}>
+    <section id="galeria" className="section-container" style={{ backgroundColor: `${secondary}10` }}>
+      <h2 className="section-title reveal" style={{ color: primary }}>
         <Image className="inline-block mr-2 mb-1" size={24} />
         Nuestra Historia
       </h2>
       
       <div className="text-center mb-12 max-w-2xl mx-auto reveal">
-        <p className={`text-[${primary}]`}>
+        <p style={{ color: primary }}>
           Cada imagen cuenta una parte de nuestra historia de amor. 
           Navega por estos momentos especiales que hemos compartido en nuestro viaje juntos.
         </p>
@@ -136,10 +201,7 @@ const Gallery = ({ images }: GalleryProps) => {
               onClick={() => setActiveImage(null)}
               className="absolute -top-10 right-0 text-white"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
+              <X size={24} />
             </button>
             
             <button 

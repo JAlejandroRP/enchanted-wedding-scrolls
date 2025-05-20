@@ -47,21 +47,23 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
 
   return (
     <section id="evento" className="section-container">
-      <h2 className="section-title reveal">
-        <Heart className="inline-block mr-2 mb-1" size={24} />
+      <h2 className="section-title reveal" style={{ color: primary }}>
+        <Heart className="inline-block mr-2 mb-1" size={24} style={{ color: primary }} />
         Nuestra Boda
       </h2>
       
       <div className="text-center mb-12 reveal">
         <div className="inline-flex items-center justify-center">
-          <Calendar size={28} className={`mr-2 text-[${secondary}]`} />
-          <p className={`font-playfair text-lg md:text-xl text-[${primary}]`}>
-            {weddingDate.toLocaleDateString('es-ES', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
+          <Calendar size={28} className="mr-2" style={{ color: secondary }} />
+          <p className="font-playfair text-lg md:text-xl" style={{ color: primary }}>
+            {weddingDate instanceof Date && !isNaN(weddingDate.getTime())
+              ? weddingDate.toLocaleDateString('es-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })
+              : 'Fecha por confirmar'}
           </p>
         </div>
       </div>
@@ -69,37 +71,37 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           <div className={`reveal space-y-4 ${isMobile ? 'p-6 rounded-lg bg-white/50 shadow-sm' : ''}`}>
-            <h3 className={`font-playfair text-xl md:text-2xl mb-3 text-[${primary}] text-center md:text-left`}>Ceremonia</h3>
+            <h3 className={`font-playfair text-xl md:text-2xl mb-3 text-center md:text-left`} style={{ color: primary }}>Ceremonia</h3>
             
-            {ceremony.imageUrl && (
+            {ceremony?.imageUrl && (
               <div className="aspect-video rounded-lg overflow-hidden mb-4">
                 <img 
                   src={ceremony.imageUrl} 
-                  alt={ceremony.name} 
+                  alt={ceremony.name || 'Ceremonia'} 
                   className="w-full h-full object-cover"
                 />
               </div>
             )}
             
             <div className="flex items-start mb-3">
-              <MapPin className={`mr-2 mt-1 text-[${secondary}]`} size={18} />
+              <MapPin className="mr-2 mt-1" size={18} style={{ color: secondary }} />
               <div>
-                <p className={`font-medium text-[${primary}]`}>{ceremony.name}</p>
-                <p className={`text-[${primary}]/80 text-sm`}>{ceremony.address}</p>
+                <p className="font-medium" style={{ color: primary }}>{ceremony?.name || 'Por confirmar'}</p>
+                <p className="text-sm" style={{ color: `${primary}80` }}>{ceremony?.address || 'Dirección por confirmar'}</p>
               </div>
             </div>
             
             <div className="flex items-center mb-4">
-              <Clock className={`mr-2 text-[${secondary}]`} size={18} />
-              <p className={`text-[${primary}]`}>{ceremony.time}</p>
+              <Clock className="mr-2" size={18} style={{ color: secondary }} />
+              <p style={{ color: primary }}>{ceremony?.time || 'Hora por confirmar'}</p>
             </div>
 
-            {ceremony.mapUrl && (
+            {ceremony?.mapUrl && (
               <Button 
                 variant="outline" 
                 size="sm"
                 onClick={() => window.open(ceremony.mapUrl, '_blank', 'noopener,noreferrer')}
-                className={`border-[${secondary}] text-[${primary}]`}
+                style={{ borderColor: secondary, color: primary }}
               >
                 <ExternalLink size={16} className="mr-2" />
                 Ver en Google Maps
@@ -108,37 +110,37 @@ const EventDetails = ({ weddingDate, ceremony, reception }: EventDetailsProps) =
           </div>
           
           <div className={`reveal space-y-4 ${isMobile ? 'p-6 rounded-lg bg-white/50 shadow-sm' : ''}`}>
-            <h3 className={`font-playfair text-xl md:text-2xl mb-3 text-[${primary}] text-center md:text-left`}>Recepción</h3>
+            <h3 className={`font-playfair text-xl md:text-2xl mb-3 text-center md:text-left`} style={{ color: primary }}>Recepción</h3>
             
-            {reception.imageUrl && (
+            {reception?.imageUrl && (
               <div className="aspect-video rounded-lg overflow-hidden mb-4">
                 <img 
                   src={reception.imageUrl} 
-                  alt={reception.name} 
+                  alt={reception.name || 'Recepción'} 
                   className="w-full h-full object-cover"
                 />
               </div>
             )}
             
             <div className="flex items-start mb-3">
-              <MapPin className={`mr-2 mt-1 text-[${secondary}]`} size={18} />
+              <MapPin className="mr-2 mt-1" size={18} style={{ color: secondary }} />
               <div>
-                <p className={`font-medium text-[${primary}]`}>{reception.name}</p>
-                <p className={`text-[${primary}]/80 text-sm`}>{reception.address}</p>
+                <p className="font-medium" style={{ color: primary }}>{reception?.name || 'Por confirmar'}</p>
+                <p className="text-sm" style={{ color: `${primary}80` }}>{reception?.address || 'Dirección por confirmar'}</p>
               </div>
             </div>
             
             <div className="flex items-center mb-4">
-              <Clock className={`mr-2 text-[${secondary}]`} size={18} />
-              <p className={`text-[${primary}]`}>{reception.time}</p>
+              <Clock className="mr-2" size={18} style={{ color: secondary }} />
+              <p style={{ color: primary }}>{reception?.time || 'Hora por confirmar'}</p>
             </div>
 
-            {reception.mapUrl && (
+            {reception?.mapUrl && (
               <Button 
                 variant="outline" 
                 size="sm"
                 onClick={() => window.open(reception.mapUrl, '_blank', 'noopener,noreferrer')}
-                className={`border-[${secondary}] text-[${primary}]`}
+                style={{ borderColor: secondary, color: primary }}
               >
                 <ExternalLink size={16} className="mr-2" />
                 Ver en Google Maps

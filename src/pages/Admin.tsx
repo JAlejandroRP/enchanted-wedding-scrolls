@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -255,6 +254,16 @@ const Admin = () => {
 
   // Go to preview
   const handlePreview = () => {
+    // Si estamos editando, dirigimos a la ruta de invitación con el public_id
+    if (isEditing && currentInvitationId) {
+      // Obtener la invitación actual para acceder al public_id
+      const currentInvitation = invitations.find(inv => inv.id === currentInvitationId);
+      if (currentInvitation) {
+        navigate(`/invitation/${currentInvitation.public_id}`);
+        return;
+      }
+    }
+    // Si no estamos editando o no encontramos la invitación, ir a la página principal
     navigate('/');
   };
 
@@ -290,6 +299,7 @@ const Admin = () => {
               variant="outline" 
               className="border-[#D4B2A7] hover:bg-[#D4B2A7]/20"
               style={{ borderColor: formData.themeColors.secondary, color: formData.themeColors.primary }}
+              disabled={!isEditing}
             >
               Ver Invitación
             </Button>

@@ -4,7 +4,7 @@ import { toast } from '@/hooks/use-toast';
 import { useStorage } from '@/hooks/useStorage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Image as ImageIcon, Loader2, X } from 'lucide-react';
 
 interface FileUploadProps {
   onUploadComplete: (url: string) => void;
@@ -25,6 +25,7 @@ export const FileUpload = ({
 }: FileUploadProps) => {
   const { uploadImage, uploading } = useStorage();
   const [preview, setPreview] = useState<string | null>(currentValue || null);
+  const [inputId] = useState(`file-upload-${Math.random().toString(36).substring(2, 9)}`);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -44,20 +45,39 @@ export const FileUpload = ({
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
 
-    // Subir archivo a storage
-    const url = await uploadImage(file);
-    
-    // Limpiar URL de vista previa
-    URL.revokeObjectURL(objectUrl);
-    
-    if (url) {
-      setPreview(url); // Actualizar la vista previa con la URL definitiva
-      onUploadComplete(url);
+    try {
+      // Subir archivo a storage
+      const url = await uploadImage(file);
+      
+      // Limpiar URL de vista previa
+      URL.revokeObjectURL(objectUrl);
+      
+      if (url) {
+        setPreview(url); // Actualizar la vista previa con la URL definitiva
+        onUploadComplete(url);
+        toast({
+          title: "Imagen subida",
+          description: "La imagen ha sido cargada correctamente",
+        });
+      } else {
+        throw new Error("Error al subir la imagen");
+      }
+    } catch (error) {
+      console.error("Error al subir imagen:", error);
       toast({
-        title: "Imagen subida",
-        description: "La imagen ha sido cargada correctamente",
+        title: "Error",
+        description: "No se pudo subir la imagen",
+        variant: "destructive",
       });
+      // Restaurar el valor anterior o limpiar si no había
+      setPreview(currentValue || null);
+      URL.revokeObjectURL(objectUrl);
     }
+  };
+  
+  const handleRemoveImage = () => {
+    setPreview(null);
+    onUploadComplete('');
   };
 
   return (
@@ -71,9 +91,9 @@ export const FileUpload = ({
           onChange={handleFileChange}
           disabled={uploading}
           className="hidden"
-          id={`file-upload-${Math.random().toString(36).substring(2, 9)}`}
+          id={inputId}
         />
-        <label htmlFor={`file-upload-${Math.random().toString(36).substring(2, 9)}`} className="w-full">
+        <label htmlFor={inputId} className="w-full">
           <Button
             type="button"
             variant="outline"
@@ -86,24 +106,22 @@ export const FileUpload = ({
         </label>
       </div>
 
-      {(preview || currentValue) && (
+      {preview && (
         <div className="mt-2 relative w-full h-40 rounded-md overflow-hidden border">
           <img 
-            src={preview || currentValue} 
+            src={preview} 
             alt="Vista previa" 
             className="w-full h-full object-cover"
           />
-          {preview && (
-            <Button
-              type="button"
-              variant="destructive"
-              size="icon"
-              className="absolute top-2 right-2 h-6 w-6"
-              onClick={() => setPreview(null)}
-            >
-              X
-            </Button>
-          )}
+          <Button
+            type="button"
+            variant="destructive"
+            size="icon"
+            className="absolute top-2 right-2 h-6 w-6"
+            onClick={handleRemoveImage}
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
       )}
     </div>

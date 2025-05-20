@@ -3,11 +3,27 @@ import { useWeddingData } from '@/hooks/useWeddingData';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import Countdown from './Countdown';
 import { useEffect, useState } from 'react';
+import { usePublicInvitation } from '@/hooks/usePublicInvitation';
+import { useParams } from 'react-router-dom';
 
 const Hero = () => {
-  const { weddingData } = useWeddingData();
+  const params = useParams();
+  const isPublicPage = !!params.publicId;
+  
+  // Usar weddingData del contexto correspondiente
+  const { weddingData: privateWeddingData } = useWeddingData();
+  const { weddingData: publicWeddingData } = usePublicInvitation();
+  
+  // Elegir la fuente correcta de datos
+  const weddingData = isPublicPage ? publicWeddingData || privateWeddingData : privateWeddingData;
+  
   const { background } = useThemeColors();
   const [scrollY, setScrollY] = useState(0);
+  const [isLoaded, setIsLoaded] = useState({
+    desktop: false,
+    mobile: false
+  });
+
   const { 
     brideFirstName,
     brideLastName,
@@ -17,11 +33,8 @@ const Hero = () => {
     backgroundImageUrl,
     mobileBackgroundImageUrl
   } = weddingData;
-  const [isLoaded, setIsLoaded] = useState({
-    desktop: false,
-    mobile: false
-  });
 
+  // Efecto para manejar el scroll para parallax
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -44,19 +57,27 @@ const Hero = () => {
       const img = new Image();
       img.onload = () => setIsLoaded(prev => ({ ...prev, desktop: true }));
       img.src = backgroundImageUrl;
+    } else {
+      setIsLoaded(prev => ({ ...prev, desktop: true }));
     }
     
     if (mobileBackgroundImageUrl) {
       const img = new Image();
       img.onload = () => setIsLoaded(prev => ({ ...prev, mobile: true }));
       img.src = mobileBackgroundImageUrl;
+    } else if (backgroundImageUrl) {
+      // Usar la imagen de escritorio como fallback para móvil
+      setIsLoaded(prev => ({ ...prev, mobile: true }));
+    } else {
+      setIsLoaded(prev => ({ ...prev, mobile: true }));
     }
   }, [backgroundImageUrl, mobileBackgroundImageUrl]);
 
   return (
     <section 
       id="inicio" 
-      className={`min-h-screen flex flex-col justify-center relative bg-gradient-to-b from-[${background}] to-white px-4 overflow-hidden pb-[env(safe-area-inset-bottom)]`}
+      className="min-h-screen flex flex-col justify-center relative px-4 overflow-hidden pb-[env(safe-area-inset-bottom)]"
+      style={{ backgroundColor: background }}
     >
       {/* Mobile background with parallax */}
       {(mobileBackgroundImageUrl || backgroundImageUrl) && (

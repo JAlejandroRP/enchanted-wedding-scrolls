@@ -1,14 +1,20 @@
 
 import { useWeddingData } from './useWeddingData';
 import { useLocation } from 'react-router-dom';
+import { usePublicInvitation } from './usePublicInvitation';
 
 export const useThemeColors = () => {
-  const { weddingData } = useWeddingData();
+  const { weddingData: privateWeddingData } = useWeddingData();
+  const { weddingData: publicWeddingData } = usePublicInvitation();
   const location = useLocation();
-  const { themeColors } = weddingData;
   
   // Solo aplicar los colores personalizados en la ruta /invitation/
   const isInvitationPage = location.pathname.includes('/invitation/');
+  
+  // Seleccionar la fuente correcta de datos
+  const themeColors = isInvitationPage && publicWeddingData 
+    ? publicWeddingData.themeColors
+    : privateWeddingData.themeColors;
   
   // Colores predeterminados para resto de páginas (admin, dashboard, etc)
   const defaultColors = {
