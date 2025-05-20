@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/integrations/supabase/client';
@@ -122,7 +121,7 @@ export const useInvitations = () => {
         throw new Error('No hay una sesión de usuario activa');
       }
 
-      const publicId = uuidv4().substring(0, 8); // Generate a short unique ID
+      const publicId = uuidv4(); // Use full UUID for public_id
 
       // Convert Location objects to JSON-compatible format for Supabase
       const ceremonyLocationJson = JSON.parse(JSON.stringify(weddingData.ceremonyLocation)) as Json;

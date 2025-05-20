@@ -1,6 +1,5 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { WeddingData } from '@/types/wedding';
+import { WeddingData, ThemeColors, Location, DressCode, GiftsInfo } from '@/types/wedding';
 import { useInvitations, Invitation } from '@/hooks/useInvitations';
 
 interface PublicInvitationContextType {
@@ -41,22 +40,24 @@ export const PublicInvitationProvider = ({ children }: { children: ReactNode }) 
         weddingDate: new Date(invitation.wedding_date),
         backgroundImageUrl: invitation.background_image_url,
         mobileBackgroundImageUrl: invitation.mobile_background_image_url || undefined,
-        ceremonyLocation: invitation.ceremony_location as any,
-        receptionLocation: invitation.reception_location as any,
+        ceremonyLocation: invitation.ceremony_location as unknown as Location,
+        receptionLocation: invitation.reception_location as unknown as Location,
         galleryImages: invitation.gallery_images as string[],
-        dressCode: invitation.dress_code as any,
-        giftsInfo: invitation.gifts_info as any,
-        themeColors: invitation.theme_colors as any
+        dressCode: invitation.dress_code as unknown as DressCode,
+        giftsInfo: invitation.gifts_info as unknown as GiftsInfo,
+        themeColors: invitation.theme_colors as unknown as ThemeColors
       };
       
       setWeddingData(data);
       
       // Apply theme colors to CSS variables ONLY on invitation pages
       if (data.themeColors) {
-        document.documentElement.style.setProperty('--wedding-primary', data.themeColors.primary);
-        document.documentElement.style.setProperty('--wedding-secondary', data.themeColors.secondary);
-        document.documentElement.style.setProperty('--wedding-accent', data.themeColors.accent);
-        document.documentElement.style.setProperty('--wedding-background', data.themeColors.background);
+        if (window.location.pathname.startsWith('/invitation/')) {
+          document.documentElement.style.setProperty('--wedding-primary', data.themeColors.primary);
+          document.documentElement.style.setProperty('--wedding-secondary', data.themeColors.secondary);
+          document.documentElement.style.setProperty('--wedding-accent', data.themeColors.accent);
+          document.documentElement.style.setProperty('--wedding-background', data.themeColors.background);
+        }
       }
       
     } catch (err) {

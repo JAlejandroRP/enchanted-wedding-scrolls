@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPastHero, setIsPastHero] = useState(false);
   const { background, secondary } = useThemeColors();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -25,14 +29,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
 
   const textColorClass = isPastHero ? 'text-black' : 'text-white';
 
@@ -67,12 +63,13 @@ const Header = () => {
           
           {/* Desktop menu */}
           <nav className="hidden md:flex space-x-6 text-sm">
-            <button onClick={() => scrollToSection('inicio')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Inicio</button>
-            <button onClick={() => scrollToSection('evento')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Evento</button>
-            <button onClick={() => scrollToSection('galeria')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Galería</button>
-            <button onClick={() => scrollToSection('regalos')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Regalos</button>
-            <button onClick={() => scrollToSection('recomendaciones')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Recomendaciones</button>
-            <button onClick={() => scrollToSection('compartir')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Compartir</button>
+            <button onClick={() => navigate('/auth')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Iniciar Sesión</button>
+            {user && (
+              <>
+                <button onClick={() => navigate('/dashboard')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Mi Panel</button>
+                <button onClick={() => navigate('/admin')} className={`${textColorClass} hover:text-[${secondary}] transition-colors`}>Crear Invitación</button>
+              </>
+            )}
           </nav>
         </div>
         
@@ -80,12 +77,13 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden mt-4 bg-white rounded-lg shadow-md p-4 animate-fade-in">
             <nav className="flex flex-col space-y-3">
-              <button onClick={() => scrollToSection('inicio')} className="text-black hover:text-[${secondary}] transition-colors">Inicio</button>
-              <button onClick={() => scrollToSection('evento')} className="text-black hover:text-[${secondary}] transition-colors">Evento</button>
-              <button onClick={() => scrollToSection('galeria')} className="text-black hover:text-[${secondary}] transition-colors">Galería</button>
-              <button onClick={() => scrollToSection('regalos')} className="text-black hover:text-[${secondary}] transition-colors">Regalos</button>
-              <button onClick={() => scrollToSection('recomendaciones')} className="text-black hover:text-[${secondary}] transition-colors">Recomendaciones</button>
-              <button onClick={() => scrollToSection('compartir')} className="text-black hover:text-[${secondary}] transition-colors">Compartir</button>
+              <button onClick={() => navigate('/auth')} className="text-black hover:text-[${secondary}] transition-colors">Iniciar Sesión</button>
+              {user && (
+                <>
+                  <button onClick={() => navigate('/dashboard')} className="text-black hover:text-[${secondary}] transition-colors">Mi Panel</button>
+                  <button onClick={() => navigate('/admin')} className="text-black hover:text-[${secondary}] transition-colors">Crear Invitación</button>
+                </>
+              )}
             </nav>
           </div>
         )}

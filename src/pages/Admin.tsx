@@ -254,17 +254,29 @@ const Admin = () => {
 
   // Go to preview
   const handlePreview = () => {
-    // Si estamos editando, dirigimos a la ruta de invitación con el public_id
-    if (isEditing && currentInvitationId) {
-      // Obtener la invitación actual para acceder al public_id
-      const currentInvitation = invitations.find(inv => inv.id === currentInvitationId);
-      if (currentInvitation) {
-        navigate(`/invitation/${currentInvitation.public_id}`);
-        return;
+    const searchParams = new URLSearchParams(location.search);
+    const publicId = searchParams.get('id');
+    
+    if (publicId) {
+      navigate(`/invitation/${publicId}`);
+    } else if (currentInvitationId) {
+      const invitation = invitations.find(inv => inv.id === currentInvitationId);
+      if (invitation?.public_id) {
+        navigate(`/invitation/${invitation.public_id}`);
+      } else {
+        toast({
+          title: "Error",
+          description: "No se puede previsualizar la invitación sin un ID público",
+          variant: "destructive"
+        });
       }
+    } else {
+      toast({
+        title: "Error",
+        description: "Debes guardar la invitación antes de previsualizarla",
+        variant: "destructive"
+      });
     }
-    // Si no estamos editando o no encontramos la invitación, ir a la página principal
-    navigate('/');
   };
 
   if (loading) {
